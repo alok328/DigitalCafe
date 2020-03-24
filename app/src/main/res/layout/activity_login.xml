@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:text="WELCOME"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.libizo.CustomEditText
+                android:id="@+id/usernameET"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="username"
+                android:inputType="text"
+                android:padding="18dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:libIZO_clearIconTint="#6D6E71"
+                app:libIZO_setBorderColor="#6D6E71"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="30dp"
+                app:libIZO_setStrokeWidth="2dp" />
+
+            <com.libizo.CustomEditText
+                android:id="@+id/passwordET"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="password"
+                android:inputType="text"
+                android:padding="18dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:libIZO_clearIconTint="#6D6E71"
+                app:libIZO_setBorderColor="#6D6E71"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="30dp"
+                app:libIZO_setStrokeWidth="2dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:paddingTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button"
+            android:onClick="loginButton"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
