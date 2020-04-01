@@ -70,10 +70,12 @@ router.post('/register', (req, res) => {
                         newUser.save()
                             .then(user => {
                                 const msg = 'you have succesfully registered'; //redirect this message onto front end login page
-                                res.redirect('/login'); //redirect to login page
+                                // res.redirect('/login'); //redirect to login page
+                                res.status(201).json(newUser)
                                 console.log(msg);
                             })
                             .catch(err =>{
+                                res.status(403).json(newUser)
                                 console.log(err);
                             });
 
