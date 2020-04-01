@@ -47,6 +47,7 @@ router.post('/register', (req, res) => {
                     //user exists
                     //enter your callback to front end
                     errors.push({message: 'User already exists'});
+                    res.status(403).json({message: 'User already exists'});
                     
                     console.log('user already exists');
                 }else{
