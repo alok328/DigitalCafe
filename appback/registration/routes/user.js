@@ -37,7 +37,7 @@ router.post('/register', (req, res) => {
     if(errors.length>0){
         //enter your callback to front end again
         console.log(errors);
-
+        res.status(400).json({'message': 'Please enter all the fields!'})
 
     }else{
         //validation
@@ -47,7 +47,7 @@ router.post('/register', (req, res) => {
                     //user exists
                     //enter your callback to front end
                     errors.push({message: 'User already exists'});
-                    res.status(403).json({message: 'User already exists'});
+                    res.status(409).json({'message': 'User already exists'});
                     
                     console.log('user already exists');
                 }else{
@@ -75,7 +75,7 @@ router.post('/register', (req, res) => {
                                 console.log(msg);
                             })
                             .catch(err =>{
-                                res.status(403).json(newUser)
+                                res.status(500).json(newUser)
                                 console.log(err);
                             });
 
