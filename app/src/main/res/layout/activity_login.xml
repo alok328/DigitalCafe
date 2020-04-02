@@ -2,11 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login">
 
     <LinearLayout
+        android:id="@+id/login_linear_Layout"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|center_horizontal|center_vertical"
@@ -39,8 +42,9 @@
                 android:id="@+id/usernameET"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:text="BE/10193/16"
                 android:layout_margin="15dp"
-                android:hint="username"
+                android:hint="BE/XXXXX/201X"
                 android:inputType="text"
                 android:padding="18dp"
                 android:textAlignment="center"
@@ -57,8 +61,9 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:text="123456"
                 android:hint="password"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:padding="18dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
@@ -75,8 +80,117 @@
             android:paddingTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/button"
+            android:src="@drawable/loginbutton"
             android:onClick="loginButton"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/signup_linear_Layout"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:text="WELCOME"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.libizo.CustomEditText
+                android:id="@+id/rollSignup"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="BE/XXXXX/201X"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:libIZO_clearIconTint="#6D6E71"
+                app:libIZO_setBorderColor="#6D6E71"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="30dp"
+                app:libIZO_setStrokeWidth="2dp" />
+
+            <com.libizo.CustomEditText
+                android:id="@+id/nameSignup"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="Name"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:libIZO_clearIconTint="#6D6E71"
+                app:libIZO_setBorderColor="#6D6E71"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="30dp"
+                app:libIZO_setStrokeWidth="2dp" />
+
+            <com.libizo.CustomEditText
+                android:id="@+id/emailSignup"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="example@gmail.com"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:libIZO_clearIconTint="#6D6E71"
+                app:libIZO_setBorderColor="#6D6E71"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="30dp"
+                app:libIZO_setStrokeWidth="2dp" />
+
+            <com.libizo.CustomEditText
+                android:id="@+id/passwordSignUp"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:libIZO_clearIconTint="#6D6E71"
+                app:libIZO_setBorderColor="#6D6E71"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="30dp"
+                app:libIZO_setStrokeWidth="2dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:paddingTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/signupbutton"
+            android:onClick="signUpButton"/>
 
     </LinearLayout>
 

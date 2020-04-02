@@ -49,14 +49,16 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        usernameTextView = findViewById(R.id.userTextView);
+        showWelcomeMessage();
 
-        intent = getIntent();
-        username = intent.getStringExtra("username");
-        balance = intent.getIntExtra("balance", -1000);
-
-        usernameTextView.setText("Welcome " + username);
-
+//        usernameTextView = findViewById(R.id.userTextView);
+//
+//        intent = getIntent();
+//        username = intent.getStringExtra("username");
+//        balance = intent.getIntExtra("balance", -1000);
+//
+//        usernameTextView.setText("Welcome " + username);
+//
         ImageButton viewBalanceButton = findViewById(R.id.viewBalButton);
         viewBalanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +66,29 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(Home.this, "Balance -> Rs. " + String.valueOf(balance), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showWelcomeMessage() {
+        KSnack kSnack = new KSnack(Home.this);
+        kSnack
+                .setListener(new KSnackBarEventListener() { // listener
+                    @Override
+                    public void showedSnackBar() {
+                        System.out.println("Showed");
+                    }
+
+                    @Override
+                    public void stoppedSnackBar() {
+                        System.out.println("Stopped");
+                    }
+                })
+                .setMessage("Login Successful") // message
+                .setTextColor(R.color.white) // message text color
+                .setBackColor(R.color.ksnack_success) // background color
+                .setAnimation(Slide.Up.getAnimation(kSnack.getSnackView()), Slide.Down.getAnimation(kSnack.getSnackView()))
+                .setDuration(4000) // you can use for auto close.
+                .show();
+
     }
 
     @Override

@@ -1,6 +1,6 @@
 const express = require('express');
 const bc = require('bcryptjs');
-
+const passport = require('passport');
 const router = express.Router();
 
 const UserSchema = require('../models/UserSchema')
@@ -75,7 +75,7 @@ router.post('/register', (req, res) => {
                                 console.log(msg);
                             })
                             .catch(err =>{
-                                res.status(500).json(newUser)
+                                res.status(500).json({message: "Could not save data!"})
                                 console.log(err);
                             });
 
@@ -100,7 +100,16 @@ router.post('/register', (req, res) => {
         
     }
     
-})
+});
+
+//Login Handle
+router.post('/login', (req, res, next) =>{
+    passport.authenticate('local', {
+        successRedirect: '/success',
+        failureRedirect: '/failure',
+        failureFlash: false
+    })(req, res, next);
+});
 
 
 

@@ -4,6 +4,10 @@ const mongoose = require ('mongoose');
 const PORT = process.env.PORT || 5000;
 const bp = require('body-parser');
 const session = require('express-session');
+const passport = require('passport');
+
+//passport config
+require('./config/passport')(passport);
 //bodyparser
 app.use(bp.json());
 
@@ -13,6 +17,12 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 //DB config
 const db = require('./config/keys').MongoURI;
@@ -27,6 +37,7 @@ mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
+
 
 
 app.listen(PORT, console.log(`Server started on ${PORT}`));
