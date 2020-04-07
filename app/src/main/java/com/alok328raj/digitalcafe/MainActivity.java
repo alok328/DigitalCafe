@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(this, Login.class);
         loginIntent.putExtra("button", 1);
         startActivity(loginIntent);
-//        finish();
     }
 
     public void signupActivity(View v){
@@ -48,18 +47,5 @@ public class MainActivity extends AppCompatActivity {
                 == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA}, 100);
         }
-
-        try{
-            SQLiteDatabase database = this.openOrCreateDatabase("TEST", MODE_PRIVATE, null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS users(username VARCAHR, password VARCHAR, balance INT(6))");
-            database.execSQL("INSERT INTO users (username, password, balance) VALUES ('alok', 'raj', 18000)");
-            database.execSQL("INSERT INTO users (username, password, balance) VALUES ('test', 'test', 15000)");
-            //String str = "UPDATE users SET balance = 10000 WHERE username = 'raj'";
-            //database.execSQL(str);
-
-        }catch (Exception e){
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-        }
-
     }
 }

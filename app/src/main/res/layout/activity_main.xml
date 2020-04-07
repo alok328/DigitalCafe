@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#ffffff"
+    android:background="#000000"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -18,7 +18,7 @@
             android:layout_height="400dp"
             android:layout_marginBottom="25dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logfin" />
 
         <LinearLayout
             android:layout_marginBottom="18dp"
@@ -33,10 +33,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/raleway_semibold"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
                 android:text="Login"
                 android:textColor="@color/textColor"
-                android:textSize="25sp"
+                android:textSize="30sp"
+                android:textStyle="bold"
                 android:onClick="loginActivity"/>
 
             <TextView
@@ -47,7 +48,8 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/textColor"
                 android:layout_marginBottom="10dp"
-                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textSize="30sp"
                 android:onClick="signupActivity"/>
 
         </LinearLayout>

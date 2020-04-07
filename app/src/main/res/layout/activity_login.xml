@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#ffffff"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login">
@@ -16,20 +16,20 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:scaleType="fitXY"
-            android:src="@drawable/logo" />
+            android:src="@drawable/whitfin" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:fontFamily="@font/raleway_semibold"
-            android:text="WELCOME"
-            android:textColor="@color/textColor"
-            android:textSize="20sp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:fontFamily="@font/raleway_semibold"-->
+<!--            android:text="WELCOME"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:textSize="20sp" />-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -94,20 +94,20 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:scaleType="fitXY"
-            android:src="@drawable/logo" />
+            android:src="@drawable/whitfin" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:fontFamily="@font/raleway_semibold"
-            android:text="WELCOME"
-            android:textColor="@color/textColor"
-            android:textSize="20sp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:fontFamily="@font/raleway_semibold"-->
+<!--            android:text="WELCOME"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:textSize="20sp" />-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -137,7 +137,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:hint="Name"
+                android:hint="name"
                 android:inputType="text"
                 android:padding="10dp"
                 android:textAlignment="center"
@@ -186,6 +186,7 @@
         </LinearLayout>
 
         <ImageView
+            android:layout_marginTop="15dp"
             android:paddingTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

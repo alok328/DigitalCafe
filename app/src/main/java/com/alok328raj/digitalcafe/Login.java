@@ -86,6 +86,7 @@ public class Login extends AppCompatActivity {
 
                     if (response.code() == 200) {
                         Intent homeIntent = new Intent(getApplicationContext(), Home.class);
+                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
                         startActivity(homeIntent);
                         finish();
                     } else {
