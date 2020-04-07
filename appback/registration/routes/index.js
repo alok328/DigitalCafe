@@ -8,7 +8,9 @@ router.get('/', (req, res) => {
 
 router.get('/success', (req, res) => {
     let message = 'Login Succesful';
-    res.status(200).json({'message':message});
+    let name = 'XYZ'
+    console.log({'message':message, 'name': name})
+    res.status(200).json({'message':message, 'name': name});
 })
 
 router.get('/failure', (req,res) =>{
