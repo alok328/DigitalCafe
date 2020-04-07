@@ -3,7 +3,8 @@ const bc = require('bcryptjs');
 const passport = require('passport');
 const router = express.Router();
 
-const UserSchema = require('../models/UserSchema')
+const UserSchema = require('../models/UserSchema');
+const pass = require('../config/passport');
 
 
 //login
@@ -111,10 +112,13 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res, next) =>{
     console.log('/user/login')
     passport.authenticate('local', {
+        
         successRedirect: '/success',
         failureRedirect: '/failure',
-        failureFlash: false
+        failureFlash: false,
+        
     })(req, res, next);
+    //res.json(pass.user.name);
 });
 
 
