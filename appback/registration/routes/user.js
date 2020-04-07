@@ -8,31 +8,35 @@ const UserSchema = require('../models/UserSchema')
 
 //login
 router.get('/login', (req, res) => {
+    console.log('/user/login')
     res.send('Login Page');
 });
 
 //register
 router.get('/register', (req, res) => {
+    console.log('/user/register')
     res.send('Register');
 });
 
 //handle get
 
 router.post('/register', (req, res) => {
+    console.log('/user/register')
     const userschema = new UserSchema({
-        name: req.body.name,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
         roll: req.body.roll
 
     });
-    const {name, email, password, roll} = req.body;
+    const {firstName, lastName, email, password, roll} = req.body;
     let errors = [];
 
-    //check fields
-    if(!name || !email || !password || !roll){
-        errors.push({message: "Please fill in all the fields"});
-    }
+    // //check fields
+    // if(!name || !email || !password || !roll){
+    //     errors.push({message: "Please fill in all the fields"});
+    // }
 
     if(errors.length>0){
         //enter your callback to front end again
@@ -54,7 +58,8 @@ router.post('/register', (req, res) => {
 
                     //storing the data in db
                     const newUser = new UserSchema({
-                        name,
+                        firstName,
+                        lastName,
                         email,
                         password,
                         roll
@@ -104,6 +109,7 @@ router.post('/register', (req, res) => {
 
 //Login Handle
 router.post('/login', (req, res, next) =>{
+    console.log('/user/login')
     passport.authenticate('local', {
         successRedirect: '/success',
         failureRedirect: '/failure',
