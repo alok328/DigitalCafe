@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/success', (req, res) => {
-    let message = 'Login Succesful';
+    let message = 'Welcome '+req.user.name;
     res.status(200).json({'message':message});
 })
 
