@@ -1,7 +1,9 @@
 const express = require('express');
 const bc = require('bcryptjs');
 const passport = require('passport');
+
 const router = express.Router();
+
 
 const UserSchema = require('../models/UserSchema');
 const pass = require('../config/passport');
@@ -110,16 +112,54 @@ router.post('/register', (req, res) => {
 
 //Login Handle
 router.post('/login', (req, res, next) =>{
+
+    const q = {
+        roll: req.body.roll
+        
+    };
+
+    
+
+    UserSchema.findOne(q, (err, user) =>{
+        if(user != null){
+            bc.compare(req.body.password, user.password, (err, isMatch)=>{
+                if(err) {
+                    throw err;
+                    console.log(err);
+                };
+
+                if(isMatch){
+                    console.log(user);
+                    
+                    res.status(200).json({'user': user});
+                }
+            })
+        }else res.status(404).send({message: 'User not found'});
+    })
+
+    
+
+
+})
+
+
+
+
+/*router.post('/login', (req, res, next) =>{
     console.log('/user/login')
     passport.authenticate('local', {
         
         successRedirect: '/success',
         failureRedirect: '/failure',
-        failureFlash: false,
+        session: true,
+        failureFlash: false
         
     })(req, res, next);
     //res.json(pass.user.name);
-});
+});*/
+
+
+
 
 
 

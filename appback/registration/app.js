@@ -3,24 +3,36 @@ const app = express();
 const mongoose = require ('mongoose');
 const PORT = process.env.PORT || 5000;
 const bp = require('body-parser');
+const cookie = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+
+const FileStore = require('session-file-store')(session);
+
+
 
 //passport config
 require('./config/passport')(passport);
 //bodyparser
 app.use(bp.json());
 
+//cookie
+app.use(cookie());
+
+
 //express session
 app.use(session({
+    store: new FileStore,
     secret: 'secret',
-    resave: true,
+    resave: false,
     saveUninitialized: true
+    
 }));
 
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 

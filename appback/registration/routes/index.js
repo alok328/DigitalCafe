@@ -1,4 +1,6 @@
+
 const express = require('express');
+const pss = require('../config/passport');
 
 const router = express.Router();
 
@@ -8,10 +10,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/success', (req, res) => {
-    console.log('/success')
+    console.log(pss.usern);
     let message = 'Login Succesful';
-    let user = req.user.firstName
-    res.status(200).json({'message':message, 'user': user});
+    let usernn = pss.usern.firstName;
+    res.status(200).json({'message':message, 'user': usernn});
 })
 
 router.get('/failure', (req,res) =>{
