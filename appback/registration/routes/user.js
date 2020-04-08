@@ -145,6 +145,18 @@ router.post('/login', (req, res, next) =>{
 })
 
 
+router.post('/balance', (req, res)=>{
+    const rolln = {roll: req.body.roll};
+    console.log(rolln);
+    console.log(req.body);
+    UserSchema.findOne(rolln, (err, user) =>{
+        if(user != null){
+            res.status(200).json({message: 'remaining balance', bal: user.balance})
+        }else (console.log('not found'))
+
+    });//if (err) throw err;
+})
+
 
 
 /*router.post('/login', (req, res, next) =>{
