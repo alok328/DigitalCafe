@@ -8,16 +8,16 @@ public class LoginResponse {
     @Expose
     private String message;
 
-    @SerializedName("name")
+    @SerializedName("user")
     @Expose
-    private String name;
+    private String user;
 
-    public String getName() {
-        return name;
+    public String getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String user) {
+        this.user = user;
     }
 
     public String getMessage() {

@@ -20,6 +20,7 @@ import com.onurkagan.ksnack_lib.Animations.Slide;
 import com.onurkagan.ksnack_lib.KSnack.KSnack;
 import com.onurkagan.ksnack_lib.KSnack.KSnackBarEventListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -31,21 +32,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Login extends AppCompatActivity {
 
     CustomEditText rollET, passwordET;
-    CustomEditText rollSingupET, nameET, emailET, passwortSignupET;
+    CustomEditText rollSingupET, nameET, lnameET, emailET, passwortSignupET;
     LinearLayout loginLinearLayout, signupLinearLayout;
     Retrofit retrofit;
     ApiClient client;
 
     public void signUpButton(View v){
         String roll = String.valueOf(rollSingupET.getText());
-        String name = String.valueOf(nameET.getText());
+        String firstName = String.valueOf(nameET.getText());
+        String lastName= String.valueOf(lnameET.getText());
         String email = String.valueOf(emailET.getText());
         String password = String.valueOf(passwortSignupET.getText());
-        if(roll.length()<1 || name.length()<1 || email.length()<1 || password.length()<1){
+        if(roll.length()<1 || firstName.length()<1 || lastName.length()<1 || email.length()<1 || password.length()<1){
             showSnackbar("Please enter valid data", R.color.ksnack_error);
         }else {
 
-            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, name, email, password);
+            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, firstName, lastName, email, password);
 
             final Call<JSONObject> signup = client.signup(signupRequestBody);
             signup.enqueue(new Callback<JSONObject>() {
@@ -86,7 +88,12 @@ public class Login extends AppCompatActivity {
 
                     if (response.code() == 200) {
                         Intent homeIntent = new Intent(getApplicationContext(), Home.class);
-                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
+                        try {
+                            homeIntent.putExtra("username", String.valueOf(response.body().getUser()));
+                            Toast.makeText(Login.this, String.valueOf(response.body().getUser()), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(homeIntent);
                         finish();
                     } else {
@@ -113,6 +120,7 @@ public class Login extends AppCompatActivity {
         passwordET = this.findViewById(R.id.passwordET);
         rollSingupET = this.findViewById(R.id.rollSignup);
         nameET = this.findViewById(R.id.nameSignup);
+        lnameET = this.findViewById(R.id.lnameSignup);
         emailET = this.findViewById(R.id.emailSignup);
         passwortSignupET = this.findViewById(R.id.passwordSignUp);
 
@@ -127,7 +135,7 @@ public class Login extends AppCompatActivity {
         }
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.103:5000/")
+                .baseUrl("http://192.168.43.133:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         client = retrofit.create(ApiClient.class);

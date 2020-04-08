@@ -51,13 +51,13 @@ public class Home extends AppCompatActivity {
 
         showWelcomeMessage();
 
-//        usernameTextView = findViewById(R.id.userTextView);
-//
-//        intent = getIntent();
-//        username = intent.getStringExtra("username");
+        usernameTextView = findViewById(R.id.userTextView);
+
+        intent = getIntent();
+        username = intent.getStringExtra("username");
 //        balance = intent.getIntExtra("balance", -1000);
-//
-//        usernameTextView.setText("Welcome " + username);
+
+        usernameTextView.setText(username + "'s Dashboard");
 //
         ImageButton viewBalanceButton = findViewById(R.id.viewBalButton);
         viewBalanceButton.setOnClickListener(new View.OnClickListener() {
