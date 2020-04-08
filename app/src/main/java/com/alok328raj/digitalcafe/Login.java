@@ -31,21 +31,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Login extends AppCompatActivity {
 
     CustomEditText rollET, passwordET;
-    CustomEditText rollSingupET, nameET, emailET, passwortSignupET;
+    CustomEditText rollSingupET, nameET, lastnameET, emailET, passwortSignupET;
     LinearLayout loginLinearLayout, signupLinearLayout;
     Retrofit retrofit;
     ApiClient client;
 
     public void signUpButton(View v){
         String roll = String.valueOf(rollSingupET.getText());
-        String name = String.valueOf(nameET.getText());
+        String firstName = String.valueOf(nameET.getText());
+        String lastName = String.valueOf(lastnameET.getText());
         String email = String.valueOf(emailET.getText());
         String password = String.valueOf(passwortSignupET.getText());
-        if(roll.length()<1 || name.length()<1 || email.length()<1 || password.length()<1){
+        if(roll.length()<1 || firstName.length()<1 || lastName.length()<1 || email.length()<1 || password.length()<1){
             showSnackbar("Please enter valid data", R.color.ksnack_error);
         }else {
 
-            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, name, email, password);
+            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, firstName, lastName, email, password);
 
             final Call<JSONObject> signup = client.signup(signupRequestBody);
             signup.enqueue(new Callback<JSONObject>() {
@@ -55,8 +56,10 @@ public class Login extends AppCompatActivity {
                         loginLinearLayout.setVisibility(View.VISIBLE);
                         signupLinearLayout.setVisibility(View.INVISIBLE);
                         showSnackbar("Sign up successful", R.color.ksnack_success);
-                    } else {
-                        showSnackbar("Roll already registered", R.color.ksnack_error);
+                    } else if(response.code() == 409){
+                        showSnackbar( "user already registered", R.color.ksnack_error);
+                    }else if(response.code() == 500){
+                        showSnackbar("Internal error", R.color.ksnack_error);
                     }
                 }
 
@@ -86,11 +89,15 @@ public class Login extends AppCompatActivity {
 
                     if (response.code() == 200) {
                         Intent homeIntent = new Intent(getApplicationContext(), Home.class);
-                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
+                        homeIntent.putExtra("username", response.body().getName());
+                        homeIntent.putExtra("roll", response.body().getRoll());
                         startActivity(homeIntent);
                         finish();
-                    } else {
+                    } else if(response.code() == 401){
                         showSnackbar("Incorrect roll/password", R.color.ksnack_error);
+                    } else if(response.code() == 404){
+                        showSnackbar("user not registered", R.color.ksnack_error);
                     }
                 }
 
@@ -113,6 +120,7 @@ public class Login extends AppCompatActivity {
         passwordET = this.findViewById(R.id.passwordET);
         rollSingupET = this.findViewById(R.id.rollSignup);
         nameET = this.findViewById(R.id.nameSignup);
+        lastnameET = this.findViewById(R.id.lnameSignup);
         emailET = this.findViewById(R.id.emailSignup);
         passwortSignupET = this.findViewById(R.id.passwordSignUp);
 
@@ -127,7 +135,7 @@ public class Login extends AppCompatActivity {
         }
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.103:5000/")
+                .baseUrl("http://192.168.43.133:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         client = retrofit.create(ApiClient.class);

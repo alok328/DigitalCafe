@@ -2,15 +2,25 @@ package com.alok328raj.digitalcafe.API.RequestBody;
 
 public class SignupRequestBody {
     private String roll;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 
-    public SignupRequestBody(String roll, String name, String email, String password) {
+    public SignupRequestBody(String roll, String firstName, String lastName, String email, String password) {
         this.roll = roll;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getRoll() {
@@ -21,12 +31,12 @@ public class SignupRequestBody {
         this.roll = roll;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {

@@ -4,11 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
-    @SerializedName("message")
+    @SerializedName("roll")
     @Expose
-    private String message;
+    private String roll;
 
-    @SerializedName("name")
+    @SerializedName("user")
     @Expose
     private String name;
 
@@ -20,11 +20,11 @@ public class LoginResponse {
         this.name = name;
     }
 
-    public String getMessage() {
-        return message;
+    public String getRoll() {
+        return roll;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setRoll(String roll) {
+        this.roll = roll;
     }
 }

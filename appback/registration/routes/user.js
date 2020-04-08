@@ -129,12 +129,14 @@ router.post('/login', (req, res, next) =>{
                 };
 
                 if(isMatch){
-                    console.log(user);
+                    console.log(user.firstName);
                     
-                    res.status(200).json({'user': user});
+                    res.status(200).json({'user': user.firstName, 'roll': user.roll});
+                }else{
+                    res.status(401).json({'message': 'Invalid roll/password'})
                 }
             })
-        }else res.status(404).send({message: 'User not found'});
+        }else res.status(404).json({message: 'User not found'});
     })
 
     
