@@ -14,11 +14,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alok328raj.digitalcafe.API.ApiClient;
+import com.alok328raj.digitalcafe.API.Model.BalanceResponse;
+import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
+import com.alok328raj.digitalcafe.Animation.MyBounceInterpolator;
 import com.blikoon.qrcodescanner.QrCodeActivity;
 import com.onurkagan.ksnack_lib.Animations.Slide;
 import com.onurkagan.ksnack_lib.KSnack.KSnack;
@@ -29,14 +35,25 @@ import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 import com.shashank.sony.fancydialoglib.Icon;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class Home extends AppCompatActivity {
 
     private static final int REQUEST_CODE_QR_SCAN = 101;
     private final String LOGTAG = "QRResult";
-    String username;
-    int balance;
+    String username, roll;
     Intent intent;
     TextView usernameTextView;
+    Retrofit retrofit;
+    ApiClient client;
+    android.view.animation.Animation rotateAnimation;
 
     public void scanQRButton(View v){
         Intent scanIntent = new Intent(Home.this, QrCodeActivity.class);
@@ -55,17 +72,53 @@ public class Home extends AppCompatActivity {
 
         intent = getIntent();
         username = intent.getStringExtra("username");
-        String roll = intent.getStringExtra("roll");
-        Toast.makeText(this, roll, Toast.LENGTH_SHORT).show();
-//        balance = intent.getIntExtra("balance", -1000);
-//
-        usernameTextView.setText("Welcome " + username);
-//
-        ImageButton viewBalanceButton = findViewById(R.id.viewBalButton);
-        viewBalanceButton.setOnClickListener(new View.OnClickListener() {
+        roll = intent.getStringExtra("roll");
+
+        usernameTextView.setText(Character.toUpperCase(username.charAt(0)) + username.substring(1) + "'s Dashboard");
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.43.103:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        client = retrofit.create(ApiClient.class);
+
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.08, 25);
+        rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        rotateAnimation.setInterpolator(interpolator);
+
+    }
+
+    public void viewProfile(final View v){
+        v.startAnimation(rotateAnimation);
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(Home.this, "Balance -> Rs. " + String.valueOf(balance), Toast.LENGTH_SHORT).show();
+            public void run() {
+                v.clearAnimation();
+            }
+        };
+        timer.schedule(timerTask, 10000);
+    }
+
+    public void viewBalance(final View v){
+//        Toast.makeText(this, roll, Toast.LENGTH_SHORT).show();
+        v.startAnimation(rotateAnimation);
+        Call<BalanceResponse> getBalance = client.getBalance(roll);
+        getBalance.enqueue(new Callback<BalanceResponse>() {
+            @Override
+            public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
+                v.clearAnimation();
+                if(response.code() == 200){
+                    showSnackbar("Balance : " + Float.toString(response.body().getBal()), R.color.ksnack_success);
+                }else{
+                    showSnackbar("Error!", R.color.ksnack_error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BalanceResponse> call, Throwable t) {
+                v.clearAnimation();
+                showSnackbar(t.getMessage(), R.color.ksnack_error);
             }
         });
     }
@@ -196,5 +249,27 @@ public class Home extends AppCompatActivity {
                     })
                     .build();
         }
+    }
+
+    public void showSnackbar(String message, int color){
+        KSnack kSnack = new KSnack(Home.this);
+        kSnack
+                .setListener(new KSnackBarEventListener() { // listener
+                    @Override
+                    public void showedSnackBar() {
+                        System.out.println("Showed");
+                    }
+
+                    @Override
+                    public void stoppedSnackBar() {
+                        System.out.println("Stopped");
+                    }
+                })
+                .setMessage(message) // message
+                .setTextColor(R.color.white) // message text color
+                .setBackColor(color) // background color
+                .setAnimation(Slide.Up.getAnimation(kSnack.getSnackView()), Slide.Down.getAnimation(kSnack.getSnackView()))
+                .setDuration(4000) // you can use for auto close.
+                .show();
     }
 }

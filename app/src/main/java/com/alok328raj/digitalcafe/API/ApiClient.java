@@ -1,6 +1,8 @@
 package com.alok328raj.digitalcafe.API;
 
+import com.alok328raj.digitalcafe.API.Model.BalanceResponse;
 import com.alok328raj.digitalcafe.API.Model.LoginResponse;
+import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
 import com.alok328raj.digitalcafe.API.RequestBody.LoginRequestBody;
 import com.alok328raj.digitalcafe.API.RequestBody.SignupRequestBody;
 
@@ -28,4 +30,6 @@ public interface ApiClient {
     @POST("user/register")
     Call<JSONObject> signup(@Body SignupRequestBody signupRequestBody);
 
+    @GET("user/{roll}/balance")
+    Call<BalanceResponse> getBalance(@Path("roll") String roll);
 }
