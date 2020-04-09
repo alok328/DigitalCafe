@@ -36,7 +36,11 @@ const Userschema = new mongoose.Schema({
          default: 20000
      },
 
-     transactions: [{type: String}],
+     transactions: [{
+            menu: String,
+            price: Number,
+            date: { type: Date, default: Date.now }
+         }]
     }
 ); 
 

@@ -142,20 +142,19 @@ router.post('/login', (req, res, next) =>{
     
 
 
-})
+});
 
 
-router.post('/balance', (req, res)=>{
-    const rolln = {roll: req.body.roll};
-    console.log(rolln);
-    console.log(req.body);
+router.get('/:roll/balance', (req, res)=>{
+    console.log(req.params)
+    const rolln = {roll: req.params.roll};
     UserSchema.findOne(rolln, (err, user) =>{
         if(user != null){
-            res.status(200).json({message: 'remaining balance', bal: user.balance})
-        }else (console.log('not found'))
+            res.status(200).json({'message': 'remaining balance', 'bal': user.balance})
+        }else res.status(404).json({'message': 'not found'})
 
     });//if (err) throw err;
-})
+});
 
 
 
@@ -173,7 +172,34 @@ router.post('/balance', (req, res)=>{
 });*/
 
 
+//add user transaction
+router.post('/:roll/transaction', (req, res)=>{
+    const rolln = {roll: req.params.roll};
+    const menun = req.body.menu
+    const pricen = req.body.price
+    console.log(rolln)
+    UserSchema.findOne(rolln, (err, user)=>{
+        console.log(user)
+        if(user != null){
+            console.log(user)
+            user.transactions.push({
+                menu: menun,
+                price: pricen
+            })
+            var bal = user.balance - pricen
+            user.balance = bal
+            user.save(function(err) {
+                err != null ? res.status(400).send(err) : res.status(201).json(user)
+            })
+        }
+    });
+});
 
+//TODO
+//return transactions array
+router.get(':roll/transaction', (req, res) => {
+
+})
 
 
 
