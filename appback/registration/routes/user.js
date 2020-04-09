@@ -203,6 +203,21 @@ router.get(':roll/transaction', (req, res) => {
 
 
 
+
+//retrieve transactions
+router.get('/:roll/transactions', (req, res)=>{
+    console.log(req.params)
+    const rolln = {roll: req.params.roll};
+    UserSchema.findOne(rolln, (err, user) =>{
+        if(user != null){
+            res.status(200).json({'message': 'transactions history', 'trn': user.transactions})
+        }else res.status(404).json({'message': 'not found'})
+
+    });//if (err) throw err;
+});
+
+
+
 module.exports = router;
 
 
