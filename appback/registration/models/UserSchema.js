@@ -40,8 +40,14 @@ const Userschema = new mongoose.Schema({
             menu: String,
             price: Number,
             date: { type: Date, default: Date.now }
-         }]
+         }],
+
+    hostel:{
+        type: String,
+        required: true
     }
+    },
+    
 ); 
 
 module.exports = mongoose.model('User', Userschema);

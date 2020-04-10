@@ -30,10 +30,11 @@ router.post('/register', (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
-        roll: req.body.roll
+        roll: req.body.roll,
+        hostel: req.body.hostel
 
     });
-    const {firstName, lastName, email, password, roll} = req.body;
+    const {firstName, lastName, email, password, roll, hostel} = req.body;
     let errors = [];
 
     // //check fields
@@ -65,7 +66,8 @@ router.post('/register', (req, res) => {
                         lastName,
                         email,
                         password,
-                        roll
+                        roll,
+                        hostel
                     });
 
                     //hash password
@@ -175,22 +177,26 @@ router.get('/:roll/balance', (req, res)=>{
 //add user transaction
 router.post('/:roll/transaction', (req, res)=>{
     const rolln = {roll: req.params.roll};
-    const menun = req.body.menu
-    const pricen = req.body.price
+    const menun = req.body.menu;
+    const pricen = req.body.price;
+    const h = req.body.hostel;
     console.log(rolln)
     UserSchema.findOne(rolln, (err, user)=>{
         console.log(user)
         if(user != null){
-            console.log(user)
-            user.transactions.push({
-                menu: menun,
-                price: pricen
-            })
-            var bal = user.balance - pricen
-            user.balance = bal
-            user.save(function(err) {
-                err != null ? res.status(400).send(err) : res.status(201).json(user)
-            })
+            if(h == user.hostel){
+
+                console.log(user)
+                user.transactions.push({
+                    menu: menun,
+                    price: pricen
+                })
+                var bal = user.balance - pricen
+                user.balance = bal
+                user.save(function(err) {
+                    err != null ? res.status(400).send(err) : res.status(201).json(user)
+                })
+            }else {res.json({message: "Not your hostel bitch!"})};
         }
     });
 });
