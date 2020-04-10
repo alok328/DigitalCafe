@@ -5,6 +5,7 @@ import com.alok328raj.digitalcafe.API.Model.LoginResponse;
 import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
 import com.alok328raj.digitalcafe.API.RequestBody.LoginRequestBody;
 import com.alok328raj.digitalcafe.API.RequestBody.SignupRequestBody;
+import com.alok328raj.digitalcafe.API.RequestBody.TransactionsRequestBody;
 
 import org.json.JSONObject;
 
@@ -32,4 +33,7 @@ public interface ApiClient {
 
     @GET("user/{roll}/balance")
     Call<BalanceResponse> getBalance(@Path("roll") String roll);
+
+    @POST("user/{roll}/transaction")
+    Call<JSONObject> addTransaction(@Path("roll") String roll, @Body TransactionsRequestBody transactionsRequestBody);
 }

@@ -117,7 +117,6 @@ router.post('/login', (req, res, next) =>{
 
     const q = {
         roll: req.body.roll
-        
     };
 
     
@@ -196,29 +195,35 @@ router.post('/:roll/transaction', (req, res)=>{
                 user.save(function(err) {
                     err != null ? res.status(400).send(err) : res.status(201).json(user)
                 })
-            }else {res.json({message: "Not your hostel bitch!"})};
+            }else {res.status(401).json({message: "Not your hostel bitch!"})};
+        }else{
+            res.status(404).json({message: "Not your hostel bitch!"});
         }
     });
 });
 
-//TODO
-//return transactions array
-router.get(':roll/transaction', (req, res) => {
+// //TODO
+// //return transactions array
+// router.get(':roll/transaction', (req, res) => {
 
-})
+// })
 
 
 
 
 //retrieve transactions
-router.get('/:roll/transactions', (req, res)=>{
+router.get('/:roll/transaction', (req, res)=>{
     console.log(req.params)
     const rolln = {roll: req.params.roll};
+    console.log(rolln)
     UserSchema.findOne(rolln, (err, user) =>{
         if(user != null){
-            res.status(200).json({'message': 'transactions history', 'trn': user.transactions})
-        }else res.status(404).json({'message': 'not found'})
-
+            console.log("user found")
+            res.status(200).json(user.transactions)
+        }else{
+            console.log('user not found!')
+            res.status(404).json({'message': 'not found'})
+        }
     });//if (err) throw err;
 });
 

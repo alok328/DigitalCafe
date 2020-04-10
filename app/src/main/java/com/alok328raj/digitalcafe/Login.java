@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.alok328raj.digitalcafe.API.ApiClient;
@@ -19,12 +22,18 @@ import com.alok328raj.digitalcafe.API.Model.LoginResponse;
 import com.alok328raj.digitalcafe.API.RequestBody.LoginRequestBody;
 import com.alok328raj.digitalcafe.API.RequestBody.SignupRequestBody;
 import com.alok328raj.digitalcafe.Animation.MyBounceInterpolator;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.libizo.CustomEditText;
 import com.onurkagan.ksnack_lib.Animations.Slide;
 import com.onurkagan.ksnack_lib.KSnack.KSnack;
 import com.onurkagan.ksnack_lib.KSnack.KSnackBarEventListener;
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
+import com.skydoves.powerspinner.PowerSpinnerView;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +41,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     CustomEditText rollET, passwordET;
     CustomEditText rollSingupET, nameET, lastnameET, emailET, passwortSignupET;
@@ -40,6 +49,8 @@ public class Login extends AppCompatActivity {
     Retrofit retrofit;
     ApiClient client;
     Animation rotateAnimation, loginAnimation;
+    String hostel = "";
+    Spinner hostelSpinner;
 
     public void signUpButton(final View v){
         String roll = String.valueOf(rollSingupET.getText());
@@ -47,7 +58,11 @@ public class Login extends AppCompatActivity {
         String lastName = String.valueOf(lastnameET.getText());
         String email = String.valueOf(emailET.getText());
         String password = String.valueOf(passwortSignupET.getText());
-        if(roll.length()<1 || firstName.length()<1 || lastName.length()<1 || email.length()<1 || password.length()<1){
+        if(hostel.length()<1 || hostel.length()>2){
+            showSnackbar("Please select your hostel!", R.color.ksnack_error);
+        }else if(roll.contains("/") || roll.contains("-") || roll.contains(".")){
+            showSnackbar("Please do not use characters like '/' in roll", R.color.ksnack_error);
+        }else if(roll.length()<1 || firstName.length()<1 || lastName.length()<1 || email.length()<1 || password.length()<1){
             showSnackbar("Please enter valid data", R.color.ksnack_error);
         }else {
             v.startAnimation(rotateAnimation);
@@ -85,7 +100,6 @@ public class Login extends AppCompatActivity {
     public void loginButton(final View v){
         String roll = String.valueOf(rollET.getText());
         String password = String.valueOf(passwordET.getText());
-
         if(roll.length()<1 || password.length()<1){
             showSnackbar("Please enter valid data", R.color.ksnack_error);
         }else {
@@ -136,6 +150,11 @@ public class Login extends AppCompatActivity {
         lastnameET = this.findViewById(R.id.lnameSignup);
         emailET = this.findViewById(R.id.emailSignup);
         passwortSignupET = this.findViewById(R.id.passwordSignUp);
+        hostelSpinner = this.findViewById(R.id.hostelSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Hostels, R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hostelSpinner.setAdapter(adapter);
+        hostelSpinner.setOnItemSelectedListener(this);
 
         int val = getIntent().getIntExtra("button", 1);
 
@@ -179,5 +198,16 @@ public class Login extends AppCompatActivity {
                 .setAnimation(Slide.Up.getAnimation(kSnack.getSnackView()), Slide.Down.getAnimation(kSnack.getSnackView()))
                 .setDuration(4000) // you can use for auto close.
                 .show();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        hostel = parent.getItemAtPosition(position).toString();
+        hostel = hostel.substring(7);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

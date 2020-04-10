@@ -24,8 +24,12 @@ import android.widget.Toast;
 import com.alok328raj.digitalcafe.API.ApiClient;
 import com.alok328raj.digitalcafe.API.Model.BalanceResponse;
 import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
+import com.alok328raj.digitalcafe.API.RequestBody.TransactionsRequestBody;
 import com.alok328raj.digitalcafe.Animation.MyBounceInterpolator;
+import com.alok328raj.digitalcafe.StringToJson.QRScanConverter;
 import com.blikoon.qrcodescanner.QrCodeActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.onurkagan.ksnack_lib.Animations.Slide;
 import com.onurkagan.ksnack_lib.KSnack.KSnack;
 import com.onurkagan.ksnack_lib.KSnack.KSnackBarEventListener;
@@ -35,6 +39,10 @@ import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 import com.shashank.sony.fancydialoglib.Icon;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,8 +62,13 @@ public class Home extends AppCompatActivity {
     Retrofit retrofit;
     ApiClient client;
     android.view.animation.Animation rotateAnimation;
+    View view;
+    DecimalFormat form = new DecimalFormat("0.00");
 
     public void scanQRButton(View v){
+        view = v;
+        view.setAnimation(rotateAnimation);
+        v.setAnimation(rotateAnimation);
         Intent scanIntent = new Intent(Home.this, QrCodeActivity.class);
         startActivityForResult( scanIntent,REQUEST_CODE_QR_SCAN);
     }
@@ -109,7 +122,7 @@ public class Home extends AppCompatActivity {
             public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
                 v.clearAnimation();
                 if(response.code() == 200){
-                    showSnackbar("Balance : " + Float.toString(response.body().getBal()), R.color.ksnack_success);
+                    showSnackbar("Balance : " + form.format(response.body().getBal()), R.color.ksnack_success);
                 }else{
                     showSnackbar("Error!", R.color.ksnack_error);
                 }
@@ -188,10 +201,16 @@ public class Home extends AppCompatActivity {
             //Getting the passed result
             String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
 
+            Gson gson = new Gson();
+            final QRScanConverter jsonScanResult = gson.fromJson(result, QRScanConverter.class);
+
+            final String menu = jsonScanResult.getMenu();
+            final Float price = jsonScanResult.getPrice();
+
             new FancyAlertDialog.Builder(this)
                     .setTitle("QR Scanned Successfully")
                     .setBackgroundColor(Color.parseColor("#F7941E"))  //Don't pass R.color.colorvalue
-                    .setMessage(result)
+                    .setMessage("Menu : " + menu + "\nPrice : Rs. " + form.format(price))
                     .setNegativeBtnText("Cancel")
                     .setPositiveBtnBackground(Color.parseColor("#F7941E"))  //Don't pass R.color.colorvalue
                     .setPositiveBtnText("Confirm")
@@ -202,49 +221,36 @@ public class Home extends AppCompatActivity {
                     .OnPositiveClicked(new FancyAlertDialogListener() {
                         @Override
                         public void OnClick() {
-                            KSnack kSnack = new KSnack(Home.this);
-                            kSnack
-                                    .setListener(new KSnackBarEventListener() { // listener
-                                        @Override
-                                        public void showedSnackBar() {
-                                            System.out.println("Showed");
+                            TransactionsRequestBody requestBody = new TransactionsRequestBody(menu, price);
+                            Call<JSONObject> addTransaction = client.addTransaction(roll, requestBody);
+                            addTransaction.enqueue(new Callback<JSONObject>() {
+                                @Override
+                                public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                                    if(response.code() == 201){
+                                        try {
+                                            showSnackbar("Done, deducted amount Rs. " + form.format(price), R.color.ksnack_success);
+                                            view.clearAnimation();
+                                        } catch (Exception e) {
+                                            showSnackbar(e.getMessage(), R.color.ksnack_error);
                                         }
+                                    }else {
+                                        view.clearAnimation();
+                                        showSnackbar("Server error", R.color.ksnack_error);
+                                    }
+                                }
 
-                                        @Override
-                                        public void stoppedSnackBar() {
-                                            System.out.println("Stopped");
-                                        }
-                                    })
-                                    .setMessage("Transaction Done") // message
-                                    .setTextColor(R.color.white) // message text color
-                                    .setBackColor(R.color.ksnack_success) // background color
-                                    .setAnimation(Slide.Up.getAnimation(kSnack.getSnackView()), Slide.Down.getAnimation(kSnack.getSnackView()))
-                                    .setDuration(4000) // you can use for auto close.
-                                    .show();
+                                @Override
+                                public void onFailure(Call<JSONObject> call, Throwable t) {
+                                    showSnackbar(t.getMessage(), R.color.ksnack_error);
+                                }
+                            });
                         }
                     })
                     .OnNegativeClicked(new FancyAlertDialogListener() {
                         @Override
                         public void OnClick() {
-                            KSnack kSnack = new KSnack(Home.this);
-                            kSnack
-                                    .setListener(new KSnackBarEventListener() { // listener
-                                        @Override
-                                        public void showedSnackBar() {
-                                            System.out.println("Showed");
-                                        }
-
-                                        @Override
-                                        public void stoppedSnackBar() {
-                                            System.out.println("Stopped");
-                                        }
-                                    })
-                                    .setMessage("Transaction Cancelled") // message
-                                    .setTextColor(R.color.white) // message text color
-                                    .setBackColor(R.color.ksnack_error) // background color
-                                    .setAnimation(Slide.Up.getAnimation(kSnack.getSnackView()), Slide.Down.getAnimation(kSnack.getSnackView()))
-                                    .setDuration(4000) // you can use for auto close.
-                                    .show();
+                            view.clearAnimation();
+                            showSnackbar("Transaction cancelled", R.color.ksnack_error);
                         }
                     })
                     .build();

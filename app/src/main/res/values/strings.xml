@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Digital Cafe</string>
+    
+    <string-array name="Hostels">
+        <item>Select your hostel</item>
+        <item>Hostel 1</item>
+        <item>Hostel 2</item>
+        <item>Hostel 3</item>
+        <item>Hostel 4</item>
+        <item>Hostel 5</item>
+        <item>Hostel 10</item>
+        <item>Hostel 13</item>
+    </string-array>
 </resources>
