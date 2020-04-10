@@ -42,7 +42,7 @@
                 android:id="@+id/usernameET"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="BE/10193/16"
+                android:text="BE1019316"
                 android:layout_margin="15dp"
                 android:hint="BE/XXXXX/201X"
                 android:inputType="text"

@@ -8,6 +8,8 @@
     tools:context=".Home">
 
     <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/dashboardLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|center_horizontal|center_vertical"
@@ -40,11 +42,10 @@
                 android:paddingTop="10dp"
                 android:paddingLeft="10dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/profileb"
-                android:onClick="viewProfile"/>
+                android:src="@drawable/profileb"/>
 
             <ImageButton
-                android:onClick="viewProfile"
+                android:onClick="viewTransactions"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:background="@android:color/transparent"
@@ -59,7 +60,6 @@
                 android:src="@drawable/balb"/>
 
             <ImageButton
-                android:onClick="viewProfile"
                 android:paddingBottom="10dp"
                 android:paddingRight="10dp"
                 android:background="@android:color/transparent"
@@ -74,6 +74,23 @@
             android:src="@drawable/scanb"
             android:layout_width="wrap_content"
             android:onClick="scanQRButton"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/transactionLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lst_items"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

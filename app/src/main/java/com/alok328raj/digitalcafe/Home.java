@@ -1,7 +1,10 @@
 package com.alok328raj.digitalcafe;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -12,19 +15,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alok328raj.digitalcafe.API.ApiClient;
 import com.alok328raj.digitalcafe.API.Model.BalanceResponse;
+import com.alok328raj.digitalcafe.API.Model.TransactionResponse;
+import com.alok328raj.digitalcafe.API.Model.transaction.Transaction;
 import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
 import com.alok328raj.digitalcafe.API.RequestBody.TransactionsRequestBody;
+import com.alok328raj.digitalcafe.Adapter.HeaderItem;
+import com.alok328raj.digitalcafe.Adapter.ListItem;
+import com.alok328raj.digitalcafe.Adapter.TransactionItem;
+import com.alok328raj.digitalcafe.Adapter.TransactionsAdapter;
 import com.alok328raj.digitalcafe.Animation.MyBounceInterpolator;
 import com.alok328raj.digitalcafe.StringToJson.QRScanConverter;
 import com.blikoon.qrcodescanner.QrCodeActivity;
@@ -39,12 +50,24 @@ import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 import com.shashank.sony.fancydialoglib.Icon;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,9 +84,12 @@ public class Home extends AppCompatActivity {
     TextView usernameTextView;
     Retrofit retrofit;
     ApiClient client;
-    android.view.animation.Animation rotateAnimation;
+    android.view.animation.Animation rotateAnimation, animation;
     View view;
     DecimalFormat form = new DecimalFormat("0.00");
+    LinearLayout dashboardLinearLayout, transactionLinearLayout;
+    Boolean showTransaction = false;
+    int backCount = 0;
 
     public void scanQRButton(View v){
         view = v;
@@ -73,7 +99,7 @@ public class Home extends AppCompatActivity {
         startActivityForResult( scanIntent,REQUEST_CODE_QR_SCAN);
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +125,11 @@ public class Home extends AppCompatActivity {
         rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce);
         rotateAnimation.setInterpolator(interpolator);
 
+        animation = AnimationUtils.loadAnimation(this, R.anim.side_in);
+
+        dashboardLinearLayout = this.findViewById(R.id.dashboardLinearLayout);
+        transactionLinearLayout = this.findViewById(R.id.transactionLinearLayout);
+
     }
 
     public void viewProfile(final View v){
@@ -111,6 +142,78 @@ public class Home extends AppCompatActivity {
             }
         };
         timer.schedule(timerTask, 10000);
+    }
+
+    public void viewTransactions(final View v) {
+        v.startAnimation(rotateAnimation);
+        Call<List<Transaction>> getTransaction = client.getTransaction(roll);
+        @NonNull final List<ListItem> items = new ArrayList<>();
+        getTransaction.enqueue(new Callback<List<Transaction>>() {
+            @Override
+            public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
+                List<Transaction> list = new ArrayList<>();
+                SimpleDateFormat spf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+                for(Transaction transaction : response.body()){
+                    Date date = transaction.getDate();
+                    String res = spf.format(date);
+                    try {
+                        Date newDate=spf.parse(res);
+                        String id = transaction.get_id();
+                        String menu = transaction.getMenu();
+                        Float price = transaction.getPrice();
+                        list.add(new Transaction(newDate, id, menu, price));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Map<Date, List<Transaction>> transactions = toMap(list);
+                ArrayList<Date> keys = new ArrayList<Date>(transactions.keySet());
+                for(int i=keys.size()-1; i>=0;i--){
+                    HeaderItem headerItem = new HeaderItem(keys.get(i));
+                    items.add(headerItem);
+                    List<Transaction> temp = transactions.get(keys.get(i));
+                    for(int j = Objects.requireNonNull(temp).size()-1; j>=0; j--){
+                        TransactionItem transactionItem = new TransactionItem(temp.get(j));
+                        items.add(transactionItem);
+                    }
+                }
+
+
+//                v.clearAnimation();
+                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recyclerView.setAdapter(new TransactionsAdapter(items));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        v.clearAnimation();
+                        transactionLinearLayout.setVisibility(View.VISIBLE);
+                        dashboardLinearLayout.setVisibility(View.INVISIBLE);
+                        showTransaction = true;
+                    }
+                }, 2500);
+            }
+
+            @Override
+            public void onFailure(Call<List<Transaction>> call, Throwable t) {
+                v.clearAnimation();
+                showSnackbar("error", R.color.ksnack_error);
+            }
+        });
+    }
+
+    @NonNull
+    private Map<Date, List<Transaction>> toMap(@NonNull List<Transaction> transactions) {
+        Map<Date, List<Transaction>> map =new TreeMap<>();
+        for(Transaction transaction: transactions){
+            List<Transaction> value = map.get(transaction.getDate());
+            if(value == null){
+                value = new ArrayList<>();
+                map.put(transaction.getDate(), value);
+            }
+            value.add(transaction);
+        }
+        return map;
     }
 
     public void viewBalance(final View v){
@@ -160,6 +263,32 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        
+        if(showTransaction){
+            showTransaction = false;
+            backCount = 0;
+            dashboardLinearLayout.setVisibility(View.VISIBLE);
+            transactionLinearLayout.setVisibility(View.INVISIBLE);
+        }else{
+            backCount++;
+            Toast.makeText(this, "Back again to log out!", Toast.LENGTH_SHORT).show();
+        }
+        if (backCount >= 2) {
+            super.onBackPressed();
+            return;
+        }
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                backCount=0;
+            }
+        }, 2000);
+        
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(resultCode != Activity.RESULT_OK)
         {
@@ -206,11 +335,12 @@ public class Home extends AppCompatActivity {
 
             final String menu = jsonScanResult.getMenu();
             final Float price = jsonScanResult.getPrice();
+            final String hostel = jsonScanResult.getHostel();
 
             new FancyAlertDialog.Builder(this)
                     .setTitle("QR Scanned Successfully")
                     .setBackgroundColor(Color.parseColor("#F7941E"))  //Don't pass R.color.colorvalue
-                    .setMessage("Menu : " + menu + "\nPrice : Rs. " + form.format(price))
+                    .setMessage("Hostel : " + hostel + "\nMenu : " + menu + "\nPrice : Rs. " + form.format(price))
                     .setNegativeBtnText("Cancel")
                     .setPositiveBtnBackground(Color.parseColor("#F7941E"))  //Don't pass R.color.colorvalue
                     .setPositiveBtnText("Confirm")
@@ -221,7 +351,7 @@ public class Home extends AppCompatActivity {
                     .OnPositiveClicked(new FancyAlertDialogListener() {
                         @Override
                         public void OnClick() {
-                            TransactionsRequestBody requestBody = new TransactionsRequestBody(menu, price);
+                            TransactionsRequestBody requestBody = new TransactionsRequestBody(menu, price, hostel);
                             Call<JSONObject> addTransaction = client.addTransaction(roll, requestBody);
                             addTransaction.enqueue(new Callback<JSONObject>() {
                                 @Override
@@ -233,9 +363,12 @@ public class Home extends AppCompatActivity {
                                         } catch (Exception e) {
                                             showSnackbar(e.getMessage(), R.color.ksnack_error);
                                         }
-                                    }else {
+                                    }else if(response.code()==401){
                                         view.clearAnimation();
-                                        showSnackbar("Server error", R.color.ksnack_error);
+                                        showSnackbar("This is not your hostel!", R.color.ksnack_error);
+                                    }else{
+                                        view.clearAnimation();;
+                                        showSnackbar("Server error, Please try again", R.color.ksnack_error);
                                     }
                                 }
 

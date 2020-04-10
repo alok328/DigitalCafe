@@ -66,7 +66,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             showSnackbar("Please enter valid data", R.color.ksnack_error);
         }else {
             v.startAnimation(rotateAnimation);
-            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, firstName, lastName, email, password);
+            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, hostel, firstName, lastName, email, password);
 
             final Call<JSONObject> signup = client.signup(signupRequestBody);
             signup.enqueue(new Callback<JSONObject>() {

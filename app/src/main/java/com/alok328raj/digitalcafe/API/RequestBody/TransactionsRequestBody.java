@@ -3,10 +3,20 @@ package com.alok328raj.digitalcafe.API.RequestBody;
 public class TransactionsRequestBody {
     private String menu;
     private float price;
+    private String hostel;
 
-    public TransactionsRequestBody(String menu, float price) {
+    public TransactionsRequestBody(String menu, float price, String hostel) {
         this.menu = menu;
         this.price = price;
+        this.hostel = hostel;
+    }
+
+    public String getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(String hostel) {
+        this.hostel = hostel;
     }
 
     public String getMenu() {
