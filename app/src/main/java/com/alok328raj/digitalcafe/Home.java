@@ -116,7 +116,7 @@ public class Home extends AppCompatActivity {
         usernameTextView.setText(Character.toUpperCase(username.charAt(0)) + username.substring(1) + "'s Dashboard");
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.103:5000/")
+                .baseUrl("https://digital-cafe.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         client = retrofit.create(ApiClient.class);
