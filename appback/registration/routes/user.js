@@ -237,6 +237,24 @@ router.get('/:roll/transaction', (req, res)=>{
 
 
 
+//user profile route
+router.get('/:roll/user', (req, res)=>{
+    console.log(req.params)
+    const rolln = {roll: req.params.roll};
+    console.log(rolln)
+    UserSchema.findOne(rolln, (err, user) =>{
+        if(user != null){
+            console.log("user found")
+            res.status(200).json(user)
+        }else{
+            console.log('user not found!')
+            res.status(404).json({'message': 'not found'})
+        }
+    });//if (err) throw err;
+});
+
+
+
 module.exports = router;
 
 
