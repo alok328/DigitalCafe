@@ -190,11 +190,15 @@ router.post('/:roll/transaction', (req, res)=>{
                     menu: menun,
                     price: pricen
                 })
-                var bal = user.balance - pricen
-                user.balance = bal
-                user.save(function(err) {
-                    err != null ? res.status(400).send(err) : res.status(201).json(user)
-                })
+                if(user.balance > 0){
+                    var bal = user.balance - pricen
+                    user.balance = bal
+                    user.save(function(err) {
+                        err != null ? res.status(400).send(err) : res.status(201).json(user)
+                    })
+
+                }else{res.status(400).json({message: "paihe nai bache account me"});}
+                
             }else {res.status(401).json({message: "Not your hostel bitch!"})};
         }else{
             res.status(404).json({message: "Not your hostel bitch!"});
