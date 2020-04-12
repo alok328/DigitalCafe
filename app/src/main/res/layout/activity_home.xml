@@ -8,6 +8,8 @@
     tools:context=".Home">
 
     <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/dashboardLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|center_horizontal|center_vertical"
@@ -23,9 +25,9 @@
             android:id="@+id/userTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome user"
             android:textColor="@color/textColor"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:textStyle="bold"
             android:fontFamily="@font/raleway_semibold"/>
 
         <GridLayout
@@ -37,19 +39,29 @@
             android:layout_height="wrap_content">
 
             <ImageButton
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/profileb"/>
 
             <ImageButton
+                android:onClick="viewTransactions"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/transactb"/>
 
             <ImageButton
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
                 android:id="@+id/viewBalButton"
+                android:onClick="viewBalance"
                 android:background="@android:color/transparent"
                 android:src="@drawable/balb"/>
 
             <ImageButton
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/faqb"/>
 
@@ -62,6 +74,31 @@
             android:src="@drawable/scanb"
             android:layout_width="wrap_content"
             android:onClick="scanQRButton"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:backgroundTint="@color/colorPrimary"
+        android:background="#FFFFFF"
+        android:visibility="invisible"
+        android:id="@+id/transactionLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lst_items"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

@@ -1,7 +1,9 @@
 const express = require('express');
 const bc = require('bcryptjs');
 const passport = require('passport');
+
 const router = express.Router();
+
 
 const UserSchema = require('../models/UserSchema');
 const pass = require('../config/passport');
@@ -28,10 +30,11 @@ router.post('/register', (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
-        roll: req.body.roll
+        roll: req.body.roll,
+        hostel: req.body.hostel
 
     });
-    const {firstName, lastName, email, password, roll} = req.body;
+    const {firstName, lastName, email, password, roll, hostel} = req.body;
     let errors = [];
 
     // //check fields
@@ -63,7 +66,8 @@ router.post('/register', (req, res) => {
                         lastName,
                         email,
                         password,
-                        roll
+                        roll,
+                        hostel
                     });
 
                     //hash password
@@ -113,14 +117,122 @@ router.post('/login', (req, res, next) =>{
     // console.log(req.body)
     // console.log(req)
     // console.log(req.user)
+
+    const q = {
+        roll: req.body.roll
+    };
+
+    
+
+    UserSchema.findOne(q, (err, user) =>{
+        if(user != null){
+            bc.compare(req.body.password, user.password, (err, isMatch)=>{
+                if(err) {
+                    throw err;
+                    console.log(err);
+                };
+
+                if(isMatch){
+                    console.log(user.firstName);
+                    
+                    res.status(200).json({'user': user.firstName, 'roll': user.roll});
+                }else{
+                    res.status(401).json({'message': 'Invalid roll/password'})
+                }
+            })
+        }else res.status(404).json({message: 'User not found'});
+    })
+
+    
+
+
+});
+
+
+router.get('/:roll/balance', (req, res)=>{
+    console.log(req.params)
+    const rolln = {roll: req.params.roll};
+    UserSchema.findOne(rolln, (err, user) =>{
+        if(user != null){
+            res.status(200).json({'message': 'remaining balance', 'bal': user.balance})
+        }else res.status(404).json({'message': 'not found'})
+
+    });//if (err) throw err;
+});
+
+
+
+/*router.post('/login', (req, res, next) =>{
+    console.log('/user/login')
     passport.authenticate('local', {
         
         successRedirect: '/success',
         failureRedirect: '/failure',
-        failureFlash: false,
+        session: true,
+        failureFlash: false
         
     })(req, res, next);
     //res.json(pass.user.name);
+});*/
+
+
+//add user transaction
+router.post('/:roll/transaction', (req, res)=>{
+    const rolln = {roll: req.params.roll};
+    const menun = req.body.menu;
+    const pricen = req.body.price;
+    const h = req.body.hostel;
+    console.log(rolln)
+    UserSchema.findOne(rolln, (err, user)=>{
+        console.log(user)
+        if(user != null){
+            if(h == user.hostel){
+
+                console.log(user)
+                user.transactions.push({
+                    menu: menun,
+                    price: pricen,
+                    balance: user.balance - pricen
+                })
+                if(user.balance - pricen > 0){
+                    var bal = user.balance - pricen
+                    user.balance = bal
+                    user.save(function(err) {
+                        err != null ? res.status(400).send(err) : res.status(201).json(user)
+                    })
+
+                }else{res.status(400).json({message: "paihe nai bache account me"});}
+                
+            }else {res.status(401).json({message: "Not your hostel bitch!"})};
+        }else{
+            res.status(404).json({message: "Not your hostel bitch!"});
+        }
+    });
+});
+
+// //TODO
+// //return transactions array
+// router.get(':roll/transaction', (req, res) => {
+
+// })
+
+
+
+
+//retrieve transactions
+router.get('/:roll/transaction', (req, res)=>{
+    console.log(req.params)
+    const rolln = {roll: req.params.roll};
+    console.log(rolln)
+    UserSchema.findOne(rolln, (err, user) =>{
+        if(user != null){
+            console.log("user found")
+            res.status(200).json(user.transactions)
+        }else{
+            console.log('user not found!')
+            res.status(404).json({'message': 'not found'})
+        }
+    });//if (err) throw err;
 });
 
 

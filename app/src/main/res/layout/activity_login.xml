@@ -21,15 +21,15 @@
             android:scaleType="fitXY"
             android:src="@drawable/whitfin" />
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:padding="10dp"-->
-<!--            android:fontFamily="@font/raleway_semibold"-->
-<!--            android:text="WELCOME"-->
-<!--            android:textColor="@color/textColor"-->
-<!--            android:textSize="20sp" />-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:fontFamily="@font/raleway_semibold"-->
+        <!--            android:text="WELCOME"-->
+        <!--            android:textColor="@color/textColor"-->
+        <!--            android:textSize="20sp" />-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -42,7 +42,7 @@
                 android:id="@+id/usernameET"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="BE/10193/16"
+                android:text="BE1019316"
                 android:layout_margin="15dp"
                 android:hint="BE/XXXXX/201X"
                 android:inputType="text"
@@ -86,6 +86,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:scrollbars="vertical"
         android:id="@+id/signup_linear_Layout"
         android:visibility="visible"
         android:layout_width="match_parent"
@@ -94,20 +95,20 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:scaleType="fitXY"
             android:src="@drawable/whitfin" />
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:padding="10dp"-->
-<!--            android:fontFamily="@font/raleway_semibold"-->
-<!--            android:text="WELCOME"-->
-<!--            android:textColor="@color/textColor"-->
-<!--            android:textSize="20sp" />-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:fontFamily="@font/raleway_semibold"-->
+        <!--            android:text="WELCOME"-->
+        <!--            android:textColor="@color/textColor"-->
+        <!--            android:textSize="20sp" />-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -117,13 +118,15 @@
 
             <com.libizo.CustomEditText
                 android:id="@+id/rollSignup"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="BE/10193/2017"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="8dp"
                 android:hint="BE/XXXXX/201X"
+                android:text="be/222/15"
                 android:inputType="text"
-                android:padding="10dp"
+                android:padding="18dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:libIZO_clearIconTint="#6D6E71"
@@ -133,15 +136,29 @@
                 app:libIZO_setCornerRadius="30dp"
                 app:libIZO_setStrokeWidth="2dp" />
 
+            <Spinner
+                android:id="@+id/hostelSpinner"
+                android:textAlignment="center"
+
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/spinner_background"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="8dp"/>
+
+
             <com.libizo.CustomEditText
                 android:id="@+id/nameSignup"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="apple"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="8dp"
                 android:hint="first name"
+                android:text="XYZ"
                 android:inputType="text"
-                android:padding="10dp"
+                android:padding="18dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:libIZO_clearIconTint="#6D6E71"
@@ -153,13 +170,15 @@
 
             <com.libizo.CustomEditText
                 android:id="@+id/lnameSignup"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="singh"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="8dp"
                 android:hint="last name"
+                android:text="ABC"
                 android:inputType="text"
-                android:padding="10dp"
+                android:padding="18dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:libIZO_clearIconTint="#6D6E71"
@@ -171,13 +190,15 @@
 
             <com.libizo.CustomEditText
                 android:id="@+id/emailSignup"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="a@gmail.com"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="8dp"
                 android:hint="example@gmail.com"
+                android:text="al.g@gmail.com"
                 android:inputType="textEmailAddress"
-                android:padding="10dp"
+                android:padding="18dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:libIZO_clearIconTint="#6D6E71"
@@ -189,13 +210,15 @@
 
             <com.libizo.CustomEditText
                 android:id="@+id/passwordSignUp"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="123456"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="8dp"
                 android:hint="password"
+                android:text="123456"
                 android:inputType="textPassword"
-                android:padding="10dp"
+                android:padding="18dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:libIZO_clearIconTint="#6D6E71"
@@ -208,8 +231,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_marginTop="15dp"
-            android:paddingTop="15dp"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/signupbutton"

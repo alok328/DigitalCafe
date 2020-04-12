@@ -4,27 +4,27 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
-    @SerializedName("message")
+    @SerializedName("roll")
     @Expose
-    private String message;
+    private String roll;
 
     @SerializedName("user")
     @Expose
-    private String user;
+    private String name;
 
-    public String getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setName(String user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMessage() {
-        return message;
+    public String getRoll() {
+        return roll;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setRoll(String roll) {
+        this.roll = roll;
     }
 }
