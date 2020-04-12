@@ -188,7 +188,8 @@ router.post('/:roll/transaction', (req, res)=>{
                 console.log(user)
                 user.transactions.push({
                     menu: menun,
-                    price: pricen
+                    price: pricen,
+                    balance: user.balance - pricen
                 })
                 if(user.balance > 0){
                     var bal = user.balance - pricen

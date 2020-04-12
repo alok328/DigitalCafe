@@ -39,7 +39,8 @@ const Userschema = new mongoose.Schema({
     transactions: [{
         menu: String,
         price: Number,
-        date: { type: Date, default: Date.now }
+        date: { type: Date, default: Date.now },
+        balance: Number
         }],
     
     hostel: {
