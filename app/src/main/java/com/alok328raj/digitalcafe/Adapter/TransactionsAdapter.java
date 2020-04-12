@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alok328raj.digitalcafe.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
@@ -31,11 +33,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private static class TransactionViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_title;
+        TextView txt_title, priceTV, balanceTV;
 
         TransactionViewHolder(View itemView) {
             super(itemView);
             txt_title = (TextView) itemView.findViewById(R.id.txt_title);
+            priceTV = itemView.findViewById(R.id.priceTextView);
+            balanceTV = itemView.findViewById(R.id.balTextView);
         }
 
     }
@@ -81,7 +85,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 TransactionItem transaction = (TransactionItem) items.get(position);
                 TransactionViewHolder holder = (TransactionViewHolder) viewHolder;
                 // your logic here
+                DecimalFormat form = new DecimalFormat("0.00");
+                String bal = form.format(transaction.getTransaction().getPrice());
                 holder.txt_title.setText(transaction.getTransaction().getMenu());
+                holder.priceTV.setText(String.format("Rs. %s", bal));
                 break;
             }
             default:
