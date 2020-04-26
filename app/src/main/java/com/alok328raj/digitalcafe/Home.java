@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.alok328raj.digitalcafe.API.ApiClient;
 import com.alok328raj.digitalcafe.API.Model.BalanceResponse;
+import com.alok328raj.digitalcafe.API.Model.ProfileResponse;
 import com.alok328raj.digitalcafe.API.Model.TransactionResponse;
 import com.alok328raj.digitalcafe.API.Model.transaction.Transaction;
 import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
@@ -41,6 +42,7 @@ import com.alok328raj.digitalcafe.StringToJson.QRScanConverter;
 import com.blikoon.qrcodescanner.QrCodeActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.onurkagan.ksnack_lib.Animations.Fade;
 import com.onurkagan.ksnack_lib.Animations.Slide;
 import com.onurkagan.ksnack_lib.KSnack.KSnack;
 import com.onurkagan.ksnack_lib.KSnack.KSnackBarEventListener;
@@ -105,7 +107,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        showWelcomeMessage();
+        showSnackbar("Login successful", R.color.ksnack_success);
 
         usernameTextView = findViewById(R.id.userTextView);
 
@@ -134,14 +136,37 @@ public class Home extends AppCompatActivity {
 
     public void viewProfile(final View v){
         v.startAnimation(rotateAnimation);
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
+        Call<ProfileResponse> getProfile = client.getProfile(roll);
+        getProfile.enqueue(new Callback<ProfileResponse>() {
             @Override
-            public void run() {
-                v.clearAnimation();
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    Intent profileIntent = new Intent(Home.this, Profile.class);
+                    profileIntent.putExtra("fname", response.body().getFirstName());
+                    profileIntent.putExtra("lname", response.body().getLastName());
+                    profileIntent.putExtra("email", response.body().getEmail());
+                    profileIntent.putExtra("roll", response.body().getRoll());
+                    profileIntent.putExtra("bal", response.body().getBalance());
+                    profileIntent.putExtra("hostel", response.body().getHostel());
+                    v.clearAnimation();
+                    startActivity(profileIntent);
+                }else{
+                    v.clearAnimation();
+                    showSnackbar("user not found", R.color.ksnack_error);
+                }
             }
-        };
-        timer.schedule(timerTask, 10000);
+
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                v.clearAnimation();
+                showSnackbar(t.getMessage(), R.color.ksnack_error);
+            }
+        });
+    }
+
+    public void viewMenu(View v){
+        Intent menuIntent = new Intent(this, MenuActivity.class);
+        startActivity(menuIntent);
     }
 
     public void viewTransactions(final View v) {
@@ -231,7 +256,7 @@ public class Home extends AppCompatActivity {
             public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
                 v.clearAnimation();
                 if(response.code() == 200){
-                    showSnackbar("Balance : " + form.format(response.body().getBal()), R.color.ksnack_success);
+                    showSnackbar("Balance : Rs. " + form.format(response.body().getBal()), R.color.ksnack_success);
                 }else{
                     showSnackbar("Error!", R.color.ksnack_error);
                 }
@@ -243,29 +268,6 @@ public class Home extends AppCompatActivity {
                 showSnackbar(t.getMessage(), R.color.ksnack_error);
             }
         });
-    }
-
-    private void showWelcomeMessage() {
-        KSnack kSnack = new KSnack(Home.this);
-        kSnack
-                .setListener(new KSnackBarEventListener() { // listener
-                    @Override
-                    public void showedSnackBar() {
-                        System.out.println("Showed");
-                    }
-
-                    @Override
-                    public void stoppedSnackBar() {
-                        System.out.println("Stopped");
-                    }
-                })
-                .setMessage("Login Successful") // message
-                .setTextColor(R.color.white) // message text color
-                .setBackColor(R.color.ksnack_success) // background color
-                .setAnimation(Slide.Up.getAnimation(kSnack.getSnackView()), Slide.Down.getAnimation(kSnack.getSnackView()))
-                .setDuration(4000) // you can use for auto close.
-                .show();
-
     }
 
     @Override

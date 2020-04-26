@@ -1,12 +1,13 @@
 
 const express = require('express');
 const pss = require('../config/passport');
+// const page = require('./index.html')
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
     console.log('/')
-    res.send('Welcome');
+    res.sendFile(__dirname + '/' + 'index.html');
 });
 
 router.get('/success', (req, res) => {

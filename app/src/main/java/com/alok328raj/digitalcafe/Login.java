@@ -102,7 +102,9 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
         String password = String.valueOf(passwordET.getText());
         if(roll.length()<1 || password.length()<1){
             showSnackbar("Please enter valid data", R.color.ksnack_error);
-        }else {
+        }else if(roll.contains("/") || roll.contains(".") || roll.contains("-")){
+            showSnackbar("Please do not use characters like '/' in roll", R.color.ksnack_error);
+        }else{
             v.startAnimation(rotateAnimation);
             LoginRequestBody loginRequestBody = new LoginRequestBody(roll, password);
 

@@ -8,21 +8,6 @@ const router = express.Router();
 const UserSchema = require('../models/UserSchema');
 const pass = require('../config/passport');
 
-
-//login
-router.get('/login', (req, res) => {
-    console.log('/user/login')
-    res.send('Login Page');
-});
-
-//register
-router.get('/register', (req, res) => {
-    console.log('/user/register')
-    res.send('Register');
-});
-
-//handle get
-
 router.post('/register', (req, res) => {
     console.log('/user/register')
     const userschema = new UserSchema({
@@ -37,13 +22,8 @@ router.post('/register', (req, res) => {
     const {firstName, lastName, email, password, roll, hostel} = req.body;
     let errors = [];
 
-    // //check fields
-    // if(!name || !email || !password || !roll){
-    //     errors.push({message: "Please fill in all the fields"});
-    // }
 
     if(errors.length>0){
-        //enter your callback to front end again
         console.log(errors);
         res.status(400).json({'message': 'Please enter all the fields!'})
 
@@ -90,39 +70,19 @@ router.post('/register', (req, res) => {
                             });
 
                     }))
-        
-    
-                        /*userschema.save()
-                        .then(data =>{
-                            res.json(data);
-                        })
-                        .catch(err => {
-                            res.json({message: err});
-                        });
-
-                    res.send('pass');*/
 
                 }
-            })
-        
-        
-    
-        
+            })   
     }
     
 });
 
 //Login Handle
 router.post('/login', (req, res, next) =>{
-    // console.log(req.body)
-    // console.log(req)
-    // console.log(req.user)
 
     const q = {
         roll: req.body.roll
     };
-
-    
 
     UserSchema.findOne(q, (err, user) =>{
         if(user != null){
@@ -142,10 +102,6 @@ router.post('/login', (req, res, next) =>{
             })
         }else res.status(404).json({message: 'User not found'});
     })
-
-    
-
-
 });
 
 
@@ -159,22 +115,6 @@ router.get('/:roll/balance', (req, res)=>{
 
     });//if (err) throw err;
 });
-
-
-
-/*router.post('/login', (req, res, next) =>{
-    console.log('/user/login')
-    passport.authenticate('local', {
-        
-        successRedirect: '/success',
-        failureRedirect: '/failure',
-        session: true,
-        failureFlash: false
-        
-    })(req, res, next);
-    //res.json(pass.user.name);
-});*/
-
 
 //add user transaction
 router.post('/:roll/transaction', (req, res)=>{
@@ -201,22 +141,14 @@ router.post('/:roll/transaction', (req, res)=>{
                         err != null ? res.status(400).send(err) : res.status(201).json(user)
                     })
 
-                }else{res.status(400).json({message: "paihe nai bache account me"});}
+                }else{res.status(400).json({message: "Insufficient balance!"});}
                 
-            }else {res.status(401).json({message: "Not your hostel bitch!"})};
+            }else {res.status(401).json({message: "Not your hostel!"})};
         }else{
-            res.status(404).json({message: "Not your hostel bitch!"});
+            res.status(404).json({message: "User not found!"});
         }
     });
 });
-
-// //TODO
-// //return transactions array
-// router.get(':roll/transaction', (req, res) => {
-
-// })
-
-
 
 
 //retrieve transactions
@@ -232,13 +164,13 @@ router.get('/:roll/transaction', (req, res)=>{
             console.log('user not found!')
             res.status(404).json({'message': 'not found'})
         }
-    });//if (err) throw err;
+    });
 });
 
 
 
 //user profile route
-router.get('/:roll/user', (req, res)=>{
+router.get('/:roll/profile', (req, res)=>{
     console.log(req.params)
     const rolln = {roll: req.params.roll};
     console.log(rolln)
@@ -250,29 +182,7 @@ router.get('/:roll/user', (req, res)=>{
             console.log('user not found!')
             res.status(404).json({'message': 'not found'})
         }
-    });//if (err) throw err;
+    });
 });
 
-
-
 module.exports = router;
-
-
-/*router.post('/register', (req, res) =>{
-    const userschema = new UserSchema({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        balance: req.body.balance
-
-    })
-
-    userschema.save()
-        .then(data =>{
-            res.json(data);
-        })
-        .catch(err => {
-            res.json({message: err});
-        });
-
-});*/

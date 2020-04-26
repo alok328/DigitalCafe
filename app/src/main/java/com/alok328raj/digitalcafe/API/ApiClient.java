@@ -2,6 +2,7 @@ package com.alok328raj.digitalcafe.API;
 
 import com.alok328raj.digitalcafe.API.Model.BalanceResponse;
 import com.alok328raj.digitalcafe.API.Model.LoginResponse;
+import com.alok328raj.digitalcafe.API.Model.ProfileResponse;
 import com.alok328raj.digitalcafe.API.Model.TransactionResponse;
 import com.alok328raj.digitalcafe.API.Model.transaction.Transaction;
 import com.alok328raj.digitalcafe.API.RequestBody.BalanceRequestBody;
@@ -41,4 +42,7 @@ public interface ApiClient {
 
     @GET("user/{roll}/transaction")
     Call<List<Transaction>> getTransaction(@Path("roll") String roll);
+
+    @GET("user/{roll}/user")
+    Call<ProfileResponse> getProfile(@Path("roll") String roll);
 }

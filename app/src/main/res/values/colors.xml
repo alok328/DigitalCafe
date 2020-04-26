@@ -5,4 +5,8 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="textColor">#F4852C</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="one">#F4852C</color>
+    <color name="oneDark">#F4852C</color>
+    <color name="two">#bf40ff</color>
 </resources>
