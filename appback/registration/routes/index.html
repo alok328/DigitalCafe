@@ -53,9 +53,9 @@
                     <li>Roll</li>
                     <li>Password</li>
                 </ul>
-                <p>The endpoint has the following response codes:</p>
+                <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
-                    <li><strong>200 - </strong>Successful login</li>
+                    <li><strong>200 - </strong>Successful login with ACCESS_TOKEN</li>
                     <li><strong>401 - </strong>Invalid credentials</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
@@ -63,21 +63,24 @@
             <div class="alert alert-warning">
                 <h3>https://digital-cafe.herokuapp.com/user/{roll}</h3>
                 <br>
+                <h5><strong>The following routes require the ACCESS_TOKEN in the header when making request</strong></h5>
                 <br>
                 <h4>/balance <button type="button" class="btn-danger btn-xs disabled">GET</button></h4>
                 <p>This is the endpoint used to get user balance for given roll.</p>
-                <p>The endpoint has the following response codes:</p>
+                <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>200 - </strong>Balance retrieved</li>
+                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
                 <br>
                 <br>
                 <h4>/transaction <button type="button" class="btn-danger btn-xs disabled">GET</button></h4>
                 <p>This is the endpoint used to get user transactions for given roll.</p>
-                <p>The endpoint has the following response codes:</p>
+                <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>200 - </strong>List of user transactions</li>
+                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
                 <br>
@@ -91,11 +94,12 @@
                     <li>Menu for which the amount is to be deducted</li>
                     <li>Hostel</li>
                 </ul>
-                <p>The endpoint has the following response codes:</p>
+                <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>201 - </strong>Transaction added to user's account</li>
                     <li><strong>400 - </strong>Insufficient balance</li>
                     <li><strong>401 - </strong>User is from a different hostel than the one QR was scanned from</li>
+                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
                 <br>
@@ -103,9 +107,10 @@
                 <h4>/profile <button type="button" class="btn-success btn-xs disabled">POST</button></h4>
                 <p>This is the endpoint returns user data for the given roll.</p>
                 <p>The endpoint takes the following params in its body:</p>
-                <p>The endpoint has the following response codes:</p>
+                <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>200 - </strong>Returns user data</li>
+                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
             </div>
