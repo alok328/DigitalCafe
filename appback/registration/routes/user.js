@@ -96,7 +96,8 @@ router.post('/login', (req, res, next) =>{
                     // console.log(user.firstName);
                     jwt.sign({user: user.roll}, 'secretKey', (err, token) => {
                         res.json({
-                            token
+                            token,
+                            roll: user.roll
                         })
                     })
                     // res.status(200).json();
