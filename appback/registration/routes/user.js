@@ -89,8 +89,7 @@ router.post('/login', (req, res, next) =>{
         if(user != null){
             bc.compare(req.body.password, user.password, (err, isMatch)=>{
                 if(err) {
-                    res.send(403);
-                    // console.log(err);
+                    res.send(404);
                 };
 
                 if(isMatch){
@@ -136,9 +135,6 @@ router.post('/:roll/transaction', verifyToken, (req, res)=>{
         if(err){
             res.sendStatus(403);
         }else{
-            if(req.params.roll !== authData.user){
-                res.sendStatus(403);
-            }
             const rolln = {roll: req.params.roll};
             const menun = req.body.menu;
             const pricen = req.body.price;
@@ -180,9 +176,6 @@ router.get('/:roll/transaction', verifyToken, (req, res)=>{
         if(err){
             res.sendStatus(403);
         }else{
-            if(req.params.roll !== authData.user){
-                res.sendStatus(403);
-            }
             // console.log(req.params)
             const rolln = {roll: req.params.roll};
             // console.log(rolln)
@@ -207,9 +200,6 @@ router.get('/:roll/profile', verifyToken, (req, res)=>{
         if(err){
             res.sendStatus(403);
         }else{
-            if(req.params.roll !== authData.user){
-                res.sendStatus(403);
-            }
             // console.log(req.params)
             const rolln = {roll: req.params.roll};
             // console.log(rolln)
