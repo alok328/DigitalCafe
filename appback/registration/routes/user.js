@@ -116,19 +116,20 @@ router.get('/:roll/balance', verifyToken, (req, res)=>{
         }else{
             if(req.params.roll !== authData.user){
                 res.sendStatus(403);
-            }
-            // console.log(req.params)
-            //const jwtRoll = authData.user
-            const rolln = {roll: req.params.roll};
-            // if(jwtRoll != rolln){
-            //     res.sendStatus(403);
-            // }
-            UserSchema.findOne(rolln, (err, user) =>{
-                if(user != null){
-                    res.status(200).json({'message': 'remaining balance', 'bal': user.balance, authData})
-                }else res.status(404).json({'message': 'not found'})
+            }else{
+                // console.log(req.params)
+                //const jwtRoll = authData.user
+                const rolln = {roll: req.params.roll};
+                // if(jwtRoll != rolln){
+                //     res.sendStatus(403);
+                // }
+                UserSchema.findOne(rolln, (err, user) =>{
+                    if(user != null){
+                        res.status(200).json({'message': 'remaining balance', 'bal': user.balance, authData})
+                    }else res.status(404).json({'message': 'not found'})
 
-            });
+                });
+            }
         }
     })
 });
@@ -141,37 +142,38 @@ router.post('/:roll/transaction', verifyToken, (req, res)=>{
         }else{
             if(req.params.roll !== authData.user){
                 res.sendStatus(403);
-            }
-            const rolln = {roll: req.params.roll};
-            const menun = req.body.menu;
-            const pricen = req.body.price;
-            const h = req.body.hostel;
-            // console.log(rolln)
-            UserSchema.findOne(rolln, (err, user)=>{
-                // console.log(user)
-                if(user != null){
-                    if(h == user.hostel){
+            }else{
+                const rolln = {roll: req.params.roll};
+                const menun = req.body.menu;
+                const pricen = req.body.price;
+                const h = req.body.hostel;
+                // console.log(rolln)
+                UserSchema.findOne(rolln, (err, user)=>{
+                    // console.log(user)
+                    if(user != null){
+                        if(h == user.hostel){
 
-                        // console.log(user)
-                        user.transactions.push({
-                            menu: menun,
-                            price: pricen,
-                            balance: user.balance - pricen
-                        })
-                        if(user.balance - pricen > 0){
-                            var bal = user.balance - pricen
-                            user.balance = bal
-                            user.save(function(err) {
-                                err != null ? res.status(400).send(err) : res.status(201).json(user)
+                            // console.log(user)
+                            user.transactions.push({
+                                menu: menun,
+                                price: pricen,
+                                balance: user.balance - pricen
                             })
+                            if(user.balance - pricen > 0){
+                                var bal = user.balance - pricen
+                                user.balance = bal
+                                user.save(function(err) {
+                                    err != null ? res.status(400).send(err) : res.status(201).json(user)
+                                })
 
-                        }else{res.status(400).json({message: "Insufficient balance!"});}
-                        
-                    }else {res.status(401).json({message: "Not your hostel!"})};
-                }else{
-                    res.status(404).json({message: "User not found!"});
-                }
-            });
+                            }else{res.status(400).json({message: "Insufficient balance!"});}
+                            
+                        }else {res.status(401).json({message: "Not your hostel!"})};
+                    }else{
+                        res.status(404).json({message: "User not found!"});
+                    }
+                });
+            }
         }
     });
 });
@@ -185,19 +187,20 @@ router.get('/:roll/transaction', verifyToken, (req, res)=>{
         }else{
             if(req.params.roll !== authData.user){
                 res.sendStatus(403);
+            }else{
+                // console.log(req.params)
+                const rolln = {roll: req.params.roll};
+                // console.log(rolln)
+                UserSchema.findOne(rolln, (err, user) =>{
+                    if(user != null){
+                        // console.log("user found")
+                        res.status(200).json(user.transactions)
+                    }else{
+                        // console.log('user not found!')
+                        res.status(404).json({'message': 'not found'})
+                    }
+                });
             }
-            // console.log(req.params)
-            const rolln = {roll: req.params.roll};
-            // console.log(rolln)
-            UserSchema.findOne(rolln, (err, user) =>{
-                if(user != null){
-                    // console.log("user found")
-                    res.status(200).json(user.transactions)
-                }else{
-                    // console.log('user not found!')
-                    res.status(404).json({'message': 'not found'})
-                }
-            });
         }
     })
 });
@@ -212,19 +215,20 @@ router.get('/:roll/profile', verifyToken, (req, res)=>{
         }else{
             if(req.params.roll !== authData.user){
                 res.sendStatus(403);
+            }else{
+                // console.log(req.params)
+                const rolln = {roll: req.params.roll};
+                // console.log(rolln)
+                UserSchema.findOne(rolln, (err, user) =>{
+                    if(user != null){
+                        // console.log("user found")
+                        res.status(200).json(user)
+                    }else{
+                        // console.log('user not found!')
+                        res.status(404).json({'message': 'not found'})
+                    }
+                });
             }
-            // console.log(req.params)
-            const rolln = {roll: req.params.roll};
-            // console.log(rolln)
-            UserSchema.findOne(rolln, (err, user) =>{
-                if(user != null){
-                    // console.log("user found")
-                    res.status(200).json(user)
-                }else{
-                    // console.log('user not found!')
-                    res.status(404).json({'message': 'not found'})
-                }
-            });
         }
     })
 });
