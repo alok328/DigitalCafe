@@ -15,71 +15,88 @@
         android:gravity="center|center_horizontal|center_vertical"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitfin" />
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            android:padding="10dp"-->
-        <!--            android:fontFamily="@font/raleway_semibold"-->
-        <!--            android:text="WELCOME"-->
-        <!--            android:textColor="@color/textColor"-->
-        <!--            android:textSize="20sp" />-->
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:padding="20dp"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.libizo.CustomEditText
-                android:id="@+id/usernameET"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:hint="@string/bexxxxx201x"
-                android:inputType="text"
-                android:padding="18dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:libIZO_clearIconTint="#6D6E71"
-                app:libIZO_setBorderColor="#6D6E71"
-                app:libIZO_setBorderView="true"
-                app:libIZO_setClearIconVisible="true"
-                app:libIZO_setCornerRadius="30dp"
-                app:libIZO_setStrokeWidth="2dp" />
-
-            <com.libizo.CustomEditText
-                android:id="@+id/passwordET"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:padding="18dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:libIZO_clearIconTint="#6D6E71"
-                app:libIZO_setBorderColor="#6D6E71"
-                app:libIZO_setBorderView="true"
-                app:libIZO_setClearIconVisible="true"
-                app:libIZO_setCornerRadius="30dp"
-                app:libIZO_setStrokeWidth="2dp" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:paddingTop="15dp"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/loginbutton"
-            android:onClick="loginButton"/>
+            android:layout_gravity="fill">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="fill_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/whitfin" />
+
+                <!--        <TextView-->
+                <!--            android:layout_width="wrap_content"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_marginTop="10dp"-->
+                <!--            android:padding="10dp"-->
+                <!--            android:fontFamily="@font/raleway_semibold"-->
+                <!--            android:text="WELCOME"-->
+                <!--            android:textColor="@color/textColor"-->
+                <!--            android:textSize="20sp" />-->
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.libizo.CustomEditText
+                        android:id="@+id/usernameET"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:hint="@string/bexxxxx201x"
+                        android:inputType="text"
+                        android:padding="18dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        app:libIZO_clearIconTint="#6D6E71"
+                        app:libIZO_setBorderColor="#6D6E71"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setCornerRadius="30dp"
+                        app:libIZO_setStrokeWidth="2dp" />
+
+                    <com.libizo.CustomEditText
+                        android:id="@+id/passwordET"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:padding="18dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        app:libIZO_clearIconTint="#6D6E71"
+                        app:libIZO_setBorderColor="#6D6E71"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setCornerRadius="30dp"
+                        app:libIZO_setStrokeWidth="2dp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="loginButton"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:src="@drawable/loginbutton" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
@@ -101,14 +118,14 @@
         <!--            android:textColor="@color/textColor"-->
         <!--            android:textSize="20sp" />-->
         <ScrollView
-            android:id="@+id/ScrollViewID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill">
 
             <LinearLayout
+                android:layout_marginBottom="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="fill_vertical"
                 android:orientation="vertical">
 
@@ -233,6 +250,7 @@
                     android:layout_marginTop="10dp"
                     android:onClick="signUpButton"
                     android:paddingTop="10dp"
+                    android:paddingBottom="15dp"
                     android:src="@drawable/signupbutton" />
 
             </LinearLayout>

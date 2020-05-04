@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -52,6 +53,21 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
     String hostel = "";
     Spinner hostelSpinner;
 
+    private static final String SHARED_PREF = "user";
+    private static final String KEY_ROLL = "key_roll";
+    private static final String KEY_PASS= "key_pass";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        initializeViews();
+        checkLoginOrSignupViews();
+        initilizeAnimations();
+        setRollAndPass();
+    }
+
     public void signUpButton(final View v){
         String roll = String.valueOf(rollSingupET.getText());
         String firstName = String.valueOf(nameET.getText());
@@ -66,34 +82,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             showSnackbar("Please enter valid data", R.color.ksnack_error);
         }else {
             v.startAnimation(rotateAnimation);
-            SignupRequestBody signupRequestBody = new SignupRequestBody(roll, hostel, firstName, lastName, email, password);
-
-            final Call<JSONObject> signup = client.signup(signupRequestBody);
-            signup.enqueue(new Callback<JSONObject>() {
-                @Override
-                public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                    v.clearAnimation();
-                    if (response.code() == 201) {
-                        loginLinearLayout.setVisibility(View.VISIBLE);
-                        signupLinearLayout.setVisibility(View.INVISIBLE);
-                        loginLinearLayout.setAnimation(loginAnimation);
-                        showSnackbar("Sign up successful", R.color.ksnack_success);
-                    } else if(response.code() == 409){
-                        loginLinearLayout.setVisibility(View.VISIBLE);
-                        signupLinearLayout.setVisibility(View.INVISIBLE);
-                        loginLinearLayout.setAnimation(loginAnimation);
-                        showSnackbar( "user already registered", R.color.ksnack_error);
-                    }else if(response.code() == 500){
-                        showSnackbar("Internal error", R.color.ksnack_error);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JSONObject> call, Throwable t) {
-                    v.clearAnimation();
-                    showSnackbar(t.getMessage(), R.color.ksnack_error);
-                }
-            });
+            callSignupRoute(roll, hostel, firstName, lastName, email, password, v);
         }
     }
 
@@ -105,44 +94,93 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
         }else if(roll.contains("/") || roll.contains(".") || roll.contains("-")){
             showSnackbar("Please do not use characters like '/' in roll", R.color.ksnack_error);
         }else{
-            v.startAnimation(rotateAnimation);
-            LoginRequestBody loginRequestBody = new LoginRequestBody(roll, password);
-
-            final Call<LoginResponse> login = client.login(loginRequestBody);
-            login.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    v.clearAnimation();
-                    if (response.code() == 200) {
-                        Intent homeIntent = new Intent(getApplicationContext(), Home.class);
-//                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
-                        homeIntent.putExtra("username", response.body().getName());
-                        homeIntent.putExtra("roll", response.body().getRoll());
-//                        ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
-//                                0, v.getWidth(), v.getHeight());
-                        startActivity(homeIntent);
-                        finish();
-                    } else if(response.code() == 401){
-                        showSnackbar("Incorrect roll/password", R.color.ksnack_error);
-                    } else if(response.code() == 404){
-                        showSnackbar("user not registered", R.color.ksnack_error);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    v.clearAnimation();
-                    showSnackbar(t.getMessage(), R.color.ksnack_error);
-                }
-            });
+            callLoginRoute(roll, password, v);
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    private void callLoginRoute(String roll, String password, final View v){
+        sharePref(roll, password);
+        v.startAnimation(rotateAnimation);
+        LoginRequestBody loginRequestBody = new LoginRequestBody(roll, password);
 
+        final Call<LoginResponse> login = client.login(loginRequestBody);
+        login.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                v.clearAnimation();
+                if (response.code() == 200) {
+                    Intent homeIntent = new Intent(getApplicationContext(), Home.class);
+//                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
+                    homeIntent.putExtra("username", response.body().getName());
+                    homeIntent.putExtra("roll", response.body().getRoll());
+//                        ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
+//                                0, v.getWidth(), v.getHeight());
+                    startActivity(homeIntent);
+                    finish();
+                } else if(response.code() == 401){
+                    showSnackbar("Incorrect roll/password", R.color.ksnack_error);
+                } else if(response.code() == 404){
+                    showSnackbar("user not registered", R.color.ksnack_error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                v.clearAnimation();
+                showSnackbar(t.getMessage(), R.color.ksnack_error);
+            }
+        });
+    }
+
+    private void callSignupRoute(String roll, String hostel, String firstName, String lastName,
+                                 String email, String password, final View v){
+        SignupRequestBody signupRequestBody = new SignupRequestBody(roll, hostel, firstName,
+                lastName, email, password);
+        final Call<JSONObject> signup = client.signup(signupRequestBody);
+        signup.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                v.clearAnimation();
+                if (response.code() == 201) {
+                    loginLinearLayout.setVisibility(View.VISIBLE);
+                    signupLinearLayout.setVisibility(View.INVISIBLE);
+                    loginLinearLayout.setAnimation(loginAnimation);
+                    showSnackbar("Sign up successful", R.color.ksnack_success);
+                } else if(response.code() == 409){
+                    loginLinearLayout.setVisibility(View.VISIBLE);
+                    signupLinearLayout.setVisibility(View.INVISIBLE);
+                    loginLinearLayout.setAnimation(loginAnimation);
+                    showSnackbar( "user already registered", R.color.ksnack_error);
+                }else if(response.code() == 500){
+                    showSnackbar("Internal error", R.color.ksnack_error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                v.clearAnimation();
+                showSnackbar(t.getMessage(), R.color.ksnack_error);
+            }
+        });
+    }
+
+    private void sharePref(String roll, String pass) {
+        SharedPreferences sp = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(KEY_ROLL, roll);
+        editor.putString(KEY_PASS, pass);
+        editor.apply();
+    }
+
+    private void setRollAndPass(){
+        SharedPreferences sp = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        if(sp.contains(KEY_ROLL) && sp.contains(KEY_PASS)){
+            rollET.setText(sp.getString(KEY_ROLL, ""));
+            passwordET.setText(sp.getString(KEY_PASS, ""));
+        }
+    }
+
+    private void initializeViews(){
         loginLinearLayout = this.findViewById(R.id.login_linear_Layout);
         signupLinearLayout = this.findViewById(R.id.signup_linear_Layout);
         rollET = this.findViewById(R.id.usernameET);
@@ -158,8 +196,23 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
         hostelSpinner.setAdapter(adapter);
         hostelSpinner.setOnItemSelectedListener(this);
 
-        int val = getIntent().getIntExtra("button", 1);
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://digital-cafe.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        client = retrofit.create(ApiClient.class);
+    }
 
+    private void initilizeAnimations(){
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
+        rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        rotateAnimation.setInterpolator(interpolator);
+        loginAnimation = AnimationUtils.loadAnimation(this, R.anim.side_in);
+    }
+
+
+    private void checkLoginOrSignupViews() {
+        int val = getIntent().getIntExtra("button", 1);
         if(val==1){
             loginLinearLayout.setVisibility(View.VISIBLE);
             signupLinearLayout.setVisibility(View.INVISIBLE);
@@ -167,17 +220,6 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             signupLinearLayout.setVisibility(View.VISIBLE);
             loginLinearLayout.setVisibility(View.INVISIBLE);
         }
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://digital-cafe.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        client = retrofit.create(ApiClient.class);
-
-        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
-        rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        rotateAnimation.setInterpolator(interpolator);
-        loginAnimation = AnimationUtils.loadAnimation(this, R.anim.side_in);
     }
 
     public void showSnackbar(String message, int color){

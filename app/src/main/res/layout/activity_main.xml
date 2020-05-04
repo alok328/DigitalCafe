@@ -7,54 +7,62 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal">
-
-        <ImageView
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_marginBottom="25dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logfin" />
+    <ScrollView
+        android:layout_centerVertical="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="fill">
 
         <LinearLayout
-            android:layout_marginBottom="18dp"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal">
 
-            <TextView
+            <ImageView
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_marginBottom="25dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logfin" />
+
+            <LinearLayout
+                android:layout_marginBottom="18dp"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway_semibold"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="30dp"
-                android:text="Login"
-                android:textColor="@color/textColor"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:onClick="loginActivity"/>
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway_semibold"
-                android:text="Sign Up"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/textColor"
-                android:layout_marginBottom="10dp"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:onClick="signupActivity"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:text="Login"
+                    android:textColor="@color/textColor"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:onClick="loginActivity"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:text="Sign Up"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/textColor"
+                    android:layout_marginBottom="10dp"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:onClick="signupActivity"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
 
 

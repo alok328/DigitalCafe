@@ -11,149 +11,156 @@
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:background="@color/one"/>
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_gravity="fill">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/logowhite"
-                android:layout_centerHorizontal="true"
-                android:elevation="1dp"/>
-
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp">
 
-                <androidx.cardview.widget.CardView
-                    app:cardElevation="2dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/logowhite"
+                    android:layout_centerHorizontal="true"
+                    android:elevation="1dp"/>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="85dp"
-                    app:contentPaddingTop="15dp"
-                    app:contentPaddingBottom="40dp"
-                    app:contentPaddingLeft="15dp"
-                    app:contentPaddingRight="15dp"
-                    app:cardCornerRadius="15dp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <androidx.cardview.widget.CardView
+                        app:cardElevation="2dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginTop="85dp"
+                        app:contentPaddingTop="15dp"
+                        app:contentPaddingBottom="40dp"
+                        app:contentPaddingLeft="15dp"
+                        app:contentPaddingRight="15dp"
+                        app:cardCornerRadius="15dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Name"
-                            android:id="@+id/nameTV"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/raleway_semibold"
-                            android:textSize="30sp"
-                            android:layout_marginTop="80dp"
-                            android:layout_gravity="center_horizontal"/>
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Email"
-                            android:id="@+id/emailTV"
-                            android:fontFamily="@font/raleway_semibold"
-                            android:textSize="20sp"
-                            android:layout_marginTop="15dp"
-                            android:layout_gravity="center_horizontal"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:id="@+id/nameTV"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/raleway_semibold"
+                                android:textSize="30sp"
+                                android:layout_marginTop="80dp"
+                                android:layout_gravity="center_horizontal"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Roll"
-                            android:id="@+id/rollTV"
-                            android:fontFamily="@font/raleway_semibold"
-                            android:textSize="20sp"
-                            android:layout_marginTop="15dp"
-                            android:layout_gravity="center_horizontal"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Email"
+                                android:id="@+id/emailTV"
+                                android:fontFamily="@font/raleway_semibold"
+                                android:textSize="20sp"
+                                android:layout_marginTop="15dp"
+                                android:layout_gravity="center_horizontal"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hostel"
-                            android:id="@+id/hostelTV"
-                            android:fontFamily="@font/raleway_semibold"
-                            android:textSize="25sp"
-                            android:layout_marginTop="15dp"
-                            android:layout_gravity="center_horizontal"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Roll"
+                                android:id="@+id/rollTV"
+                                android:fontFamily="@font/raleway_semibold"
+                                android:textSize="20sp"
+                                android:layout_marginTop="15dp"
+                                android:layout_gravity="center_horizontal"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hostel"
+                                android:id="@+id/hostelTV"
+                                android:fontFamily="@font/raleway_semibold"
+                                android:textSize="25sp"
+                                android:layout_marginTop="15dp"
+                                android:layout_gravity="center_horizontal"/>
 
 
-                    </LinearLayout>
+                        </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
 
-                <androidx.cardview.widget.CardView
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginBottom="10dp"
-                    app:contentPaddingTop="15dp"
-                    app:contentPaddingBottom="15dp"
-                    app:contentPaddingLeft="15dp"
-                    app:contentPaddingRight="15dp"
-                    app:cardCornerRadius="15dp">
-
-                    <LinearLayout
-                        android:padding="10dp"
-                        android:layout_width="match_parent"
+                    <androidx.cardview.widget.CardView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_horizontal">
+                        android:layout_marginTop="35dp"
+                        android:layout_marginBottom="10dp"
+                        app:contentPaddingTop="15dp"
+                        app:contentPaddingBottom="15dp"
+                        app:contentPaddingLeft="15dp"
+                        app:contentPaddingRight="15dp"
+                        app:cardCornerRadius="15dp">
 
-                        <ImageView
-                            android:paddingTop="10dp"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:padding="10dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_account_balance_wallet_black_24dp"/>
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal">
 
-                        <TextView
-                            android:paddingTop="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="   Balance"
-                            android:id="@+id/balanceTV"
-                            android:fontFamily="@font/raleway_semibold"
-                            android:textSize="17sp"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center_horizontal"/>
+                            <ImageView
+                                android:paddingTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_account_balance_wallet_black_24dp"/>
 
-                    </LinearLayout>
+                            <TextView
+                                android:paddingTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="   Balance"
+                                android:id="@+id/balanceTV"
+                                android:fontFamily="@font/raleway_semibold"
+                                android:textSize="17sp"
+                                android:layout_marginTop="10dp"
+                                android:layout_gravity="center_horizontal"/>
 
-
-                </androidx.cardview.widget.CardView>
-
-                <ImageView
-                    android:onClick="goBack"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/backb"/>
+                        </LinearLayout>
 
 
-            </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:onClick="goBack"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/backb"/>
 
 
-        </RelativeLayout>
+                </LinearLayout>
 
-    </LinearLayout>
 
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

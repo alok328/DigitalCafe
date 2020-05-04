@@ -8,29 +8,26 @@ import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Toast;
-import com.alok328raj.digitalcafe.API.ApiClient;
-import com.alok328raj.digitalcafe.API.Model.LoginResponse;
-import com.alok328raj.digitalcafe.API.RequestBody.LoginRequestBody;
 
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        //Request user permissions for camera access in the app
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA}, 100);
+        }
+    }
+
+    //Start login activity
     public void loginActivity(View v){
 
         Intent loginIntent = new Intent(this, Login.class);
@@ -40,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(loginIntent, options.toBundle());
     }
 
+    //Start sign up activity
     public void signupActivity(View v){
         Intent signUPIntent = new Intent(this, Login.class);
         signUPIntent.putExtra("button", 0);
@@ -47,14 +45,5 @@ public class MainActivity extends AppCompatActivity {
                 0, v.getWidth(), v.getHeight());
         startActivity(signUPIntent, options.toBundle());
     }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA}, 100);
-        }
-    }
 }
