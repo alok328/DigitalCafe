@@ -111,12 +111,13 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
                 if (response.code() == 200) {
                     Intent homeIntent = new Intent(getApplicationContext(), Home.class);
 //                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
-                    homeIntent.putExtra("username", response.body().getName());
+                    homeIntent.putExtra("token", response.body().getToken());
+                    showSnackbar(response.body().getToken() + response.body().getRoll(), R.color.ksnack_success);
                     homeIntent.putExtra("roll", response.body().getRoll());
 //                        ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
 //                                0, v.getWidth(), v.getHeight());
-                    startActivity(homeIntent);
-                    finish();
+//                    startActivity(homeIntent);
+//                    finish();
                 } else if(response.code() == 401){
                     showSnackbar("Incorrect roll/password", R.color.ksnack_error);
                 } else if(response.code() == 404){
@@ -197,7 +198,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
         hostelSpinner.setOnItemSelectedListener(this);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://digital-cafe.herokuapp.com/")
+                .baseUrl("https://digitalcafe.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         client = retrofit.create(ApiClient.class);

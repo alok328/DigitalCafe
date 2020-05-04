@@ -4,20 +4,24 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
+    @SerializedName("token")
+    @Expose
+    private String token;
+
     @SerializedName("roll")
     @Expose
     private String roll;
 
-    @SerializedName("user")
+    public String getToken() {
+        return token;
+    }
+
+    @SerializedName("name")
     @Expose
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getRoll() {
@@ -26,5 +30,13 @@ public class LoginResponse {
 
     public void setRoll(String roll) {
         this.roll = roll;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
