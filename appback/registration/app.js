@@ -20,18 +20,18 @@ app.use(bp.json());
 app.use(cookie());
 
 
-//express session
-// app.use(session({
-//     store: new FileStore,
-//     secret: 'secret',
-//     resave: false,
-//     saveUninitialized: true
+// express session
+app.use(session({
+    store: new FileStore,
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true
     
-// }));
+}));
 
-//passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
