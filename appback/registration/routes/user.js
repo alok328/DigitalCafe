@@ -115,9 +115,9 @@ router.get('/:roll/balance', verifyToken, (req, res)=>{
         if(err){
             res.sendStatus(403);
         }else{
-            if(req.params.roll !== authData.user){
-                res.sendStatus(403);
-            }
+            // if(req.params.roll !== authData.user){
+            //     res.sendStatus(403);
+            // }
             // console.log(req.params)
             const rolln = {roll: req.params.roll};
             UserSchema.findOne(rolln, (err, user) =>{
@@ -232,7 +232,7 @@ function verifyToken(req, res, next){
         const bearer = bearerHeader.split(' ');
         const bearerToken = bearer[1];
         req.token = bearerToken;
-        // next();
+        next();
     }else{
         res.sendStatus(403);
     }
