@@ -21,13 +21,13 @@ app.use(cookie());
 
 
 //express session
-app.use(session({
-    store: new FileStore,
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true
+// app.use(session({
+//     store: new FileStore,
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: true
     
-}));
+// }));
 
 //passport middleware
 app.use(passport.initialize());
