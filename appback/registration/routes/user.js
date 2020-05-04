@@ -89,7 +89,7 @@ router.post('/login', (req, res, next) =>{
         if(user != null){
             bc.compare(req.body.password, user.password, (err, isMatch)=>{
                 if(err) {
-                    throw err;
+                    res.send(403);
                     // console.log(err);
                 };
 
