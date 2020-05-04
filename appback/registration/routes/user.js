@@ -54,7 +54,7 @@ router.post('/register', (req, res) => {
                     //hash password
                     bc.genSalt(10, (err, salt) => 
                     bc.hash(newUser.password, salt, (err, hash) => {
-                        if(err) throw err;
+                        if(err) {res.send(404);}
                         //set password to hash
                         newUser.password = hash;
                         //save user
