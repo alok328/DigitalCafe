@@ -6,6 +6,9 @@
     <string name="last_name">last name</string>
     <string name="email">email</string>
     <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="know_more">Info</string>
 
     <string-array name="Hostels">
         <item>Select your hostel</item>

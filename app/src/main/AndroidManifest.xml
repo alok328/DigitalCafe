@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MenuActivity" android:theme="@style/Theme.AppCompat.Translucent"></activity>
+        <activity android:name=".KnowMore"></activity>
+        <activity
+            android:name=".MenuActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity android:name=".Profile" />
         <activity
             android:name=".Home"

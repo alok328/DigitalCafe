@@ -81,7 +81,7 @@ public class Home extends AppCompatActivity {
 
     private static final int REQUEST_CODE_QR_SCAN = 101;
     private final String LOGTAG = "QRResult";
-    String username, roll;
+    String username, roll, ACCESS_TOKEN;
     Intent intent;
     TextView usernameTextView;
     Retrofit retrofit;
@@ -114,11 +114,12 @@ public class Home extends AppCompatActivity {
         intent = getIntent();
         username = intent.getStringExtra("username");
         roll = intent.getStringExtra("roll");
+        ACCESS_TOKEN = intent.getStringExtra("token");
 
         usernameTextView.setText(Character.toUpperCase(username.charAt(0)) + username.substring(1) + "'s Dashboard");
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://digital-cafe.herokuapp.com/")
+                .baseUrl("https://digitalcafe.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         client = retrofit.create(ApiClient.class);
@@ -136,7 +137,8 @@ public class Home extends AppCompatActivity {
 
     public void viewProfile(final View v){
         v.startAnimation(rotateAnimation);
-        Call<ProfileResponse> getProfile = client.getProfile(roll);
+        String TOKEN = "bearer " + ACCESS_TOKEN;
+        Call<ProfileResponse> getProfile = client.getProfile(TOKEN, roll);
         getProfile.enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
@@ -171,7 +173,8 @@ public class Home extends AppCompatActivity {
 
     public void viewTransactions(final View v) {
         v.startAnimation(rotateAnimation);
-        Call<List<Transaction>> getTransaction = client.getTransaction(roll);
+        String TOKEN = "bearer " + ACCESS_TOKEN;
+        Call<List<Transaction>> getTransaction = client.getTransaction(TOKEN, roll);
         @NonNull final List<ListItem> items = new ArrayList<>();
         getTransaction.enqueue(new Callback<List<Transaction>>() {
             @Override
@@ -250,7 +253,8 @@ public class Home extends AppCompatActivity {
     public void viewBalance(final View v){
 //        Toast.makeText(this, roll, Toast.LENGTH_SHORT).show();
         v.startAnimation(rotateAnimation);
-        Call<BalanceResponse> getBalance = client.getBalance(roll);
+        String TOKEN = "bearer " + ACCESS_TOKEN;
+        Call<BalanceResponse> getBalance = client.getBalance(TOKEN, roll);
         getBalance.enqueue(new Callback<BalanceResponse>() {
             @Override
             public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
@@ -360,7 +364,8 @@ public class Home extends AppCompatActivity {
                         @Override
                         public void OnClick() {
                             TransactionsRequestBody requestBody = new TransactionsRequestBody(menu, price, hostel);
-                            Call<JSONObject> addTransaction = client.addTransaction(roll, requestBody);
+                            String TOKEN = "bearer " + ACCESS_TOKEN;
+                            Call<JSONObject> addTransaction = client.addTransaction(TOKEN, roll, requestBody);
                             addTransaction.enqueue(new Callback<JSONObject>() {
                                 @Override
                                 public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {

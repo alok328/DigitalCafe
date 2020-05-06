@@ -112,12 +112,12 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
                     Intent homeIntent = new Intent(getApplicationContext(), Home.class);
 //                        Toast.makeText(Login.this, response.body().getName(), Toast.LENGTH_SHORT).show();
                     homeIntent.putExtra("token", response.body().getToken());
-                    showSnackbar(response.body().getToken() + response.body().getRoll(), R.color.ksnack_success);
                     homeIntent.putExtra("roll", response.body().getRoll());
-//                        ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
-//                                0, v.getWidth(), v.getHeight());
-//                    startActivity(homeIntent);
-//                    finish();
+                    homeIntent.putExtra("username", response.body().getName());
+                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
+                            0, v.getWidth(), v.getHeight());
+                    startActivity(homeIntent);
+                    finish();
                 } else if(response.code() == 401){
                     showSnackbar("Incorrect roll/password", R.color.ksnack_error);
                 } else if(response.code() == 404){

@@ -46,4 +46,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(signUPIntent, options.toBundle());
     }
 
+    public void knowMoreButton(View v){
+        Intent knowMoreIntent = new Intent(this, KnowMore.class);
+        startActivity(knowMoreIntent);
+    }
+
 }
