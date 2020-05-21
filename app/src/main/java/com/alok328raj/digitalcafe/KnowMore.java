@@ -18,25 +18,18 @@ public class KnowMore extends AppCompatActivity {
         setContentView(R.layout.activity_know_more);
 
         Window window = this.getWindow();
-
-// clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
-
-// finally change the color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(ContextCompat.getColor(this,R.color.white));
         }
-
-        WebView knowMore = findViewById(R.id.webView);
-        WebSettings webSettings = knowMore.getSettings();
+        WebView knowMoreWebView = findViewById(R.id.webView);
+        WebSettings webSettings = knowMoreWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        knowMore.loadUrl("https://digitalcafe.herokuapp.com/");
+        knowMoreWebView.loadUrl("https://digitalcafe.herokuapp.com/");
 
     }
 }

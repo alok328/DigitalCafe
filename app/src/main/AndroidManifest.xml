@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".KnowMore"></activity>
+        <activity android:name=".StatsVis"></activity>
+        <activity android:name=".DayWiseVisualisation" />
+        <activity android:name=".MealWiseVisualisation" />
+        <activity android:name=".KnowMore" />
         <activity
             android:name=".MenuActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />

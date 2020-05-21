@@ -9,6 +9,7 @@
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
     <string name="know_more">Info</string>
+    <string name="welcome">Welcome</string>
 
     <string-array name="Hostels">
         <item>Select your hostel</item>

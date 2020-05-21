@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -56,6 +58,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,6 +70,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -94,13 +98,42 @@ public class Home extends AppCompatActivity {
     int backCount = 0;
 
     public void scanQRButton(View v){
-        view = v;
-        view.setAnimation(rotateAnimation);
-        v.setAnimation(rotateAnimation);
         Intent scanIntent = new Intent(Home.this, QrCodeActivity.class);
         startActivityForResult( scanIntent,REQUEST_CODE_QR_SCAN);
     }
 
+
+    public void dayWiseStats(final View v){
+        v.startAnimation(rotateAnimation);
+        final Intent dayWiseStatsIntent = new Intent(this, DayWiseVisualisation.class);
+        Timer timer = new Timer();
+        Random random = new Random();
+        int interval = random.nextInt(3500-1500) + 1500;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                v.clearAnimation();
+                startActivity(dayWiseStatsIntent);
+            }
+        };
+        timer.schedule(task, interval);
+    }
+
+    public void mealWiseStats(final View v){
+        v.startAnimation(rotateAnimation);
+        final Intent mealWiseStatsIntent = new Intent(this, MealWiseVisualisation.class);
+        Timer timer = new Timer();
+        Random random = new Random();
+        int interval = random.nextInt(3500-1500) + 1500;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                v.clearAnimation();
+                startActivity(mealWiseStatsIntent);
+            }
+        };
+        timer.schedule(task, interval);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +201,10 @@ public class Home extends AppCompatActivity {
 
     public void viewMenu(View v){
         Intent menuIntent = new Intent(this, MenuActivity.class);
+//        ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
+//                0, v.getWidth(), v.getHeight());
         startActivity(menuIntent);
+        overridePendingTransition(R.anim.side_in, R.anim.side_out);
     }
 
     public void viewTransactions(final View v) {
@@ -372,18 +408,14 @@ public class Home extends AppCompatActivity {
                                     if(response.code() == 201){
                                         try {
                                             showSnackbar("Done, deducted amount Rs. " + form.format(price), R.color.ksnack_success);
-                                            view.clearAnimation();
                                         } catch (Exception e) {
                                             showSnackbar(e.getMessage(), R.color.ksnack_error);
                                         }
                                     }else if(response.code() == 400) {
-                                        view.clearAnimation();
                                         showSnackbar("Insufficient balance", R.color.ksnack_error);
                                     }else if(response.code()==401){
-                                        view.clearAnimation();
                                         showSnackbar("This is not your hostel!", R.color.ksnack_error);
                                     }else{
-                                        view.clearAnimation();;
                                         showSnackbar("Server error, Please try again", R.color.ksnack_error);
                                     }
                                 }

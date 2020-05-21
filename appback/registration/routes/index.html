@@ -9,19 +9,31 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
     </head>
     <body>
         <div class="container">
             <div class="jumbotron">
                 <h1>Digital Cafe API Documentation</h1>
-                <p>Created by <strong>Alok Raj</strong> & <strong>Md. Shamil Khan</strong></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Created by <strong>Alok Raj</strong> & <strong>Md. Shamil Khan</strong></p>
+                    </div>
+                </div>
                 <p>Project guide - <a href="https://bitmesra.ac.in/Display_My_Profile_00983KKj893L?id=7iHUTn%252f7FTED7PaxWEMljojalD1DgKZl%252bISaOV%252bBzLA%253d" target="_blank"><strong>Dr. Itu Snigdh</strong></a></p>
             </div>
-            <div class="alert alert-success">
+            <div class="alert alert-success" id="redirect">
                 <h3>You are here!</h3>
-                <h4>https://digitalcafe.herokuapp.com/   <button type="button" class="btn-danger btn-xs disabled">GET</button></h4>
-                <p>This is the index page which gives a detailed description of the API endpoints for CRUD operations!</p>
+                <h4>https://digitalcafe.herokuapp.com/   <a href="#redirect"><button type="button" class="btn-danger btn-xs disabled">GET</button></a></h4>
+                <p>This is the index page which gives a detailed description of the APIs used by the mobile application for serving user data.</p>
+                <p><strong>NOTE:</strong> The POST routes can't be triggered using the browser :p</p>
+                <br>
+                <h3>API for the data analytics and visualization:</h3>
+                <h4>https://digitalcafe-stats.herokuapp.com/</h4>
+                <p>The endpoint has the following routes:</p>
+                <ul>
+                    <a href="https://digitalcafe-stats.herokuapp.com/getStudentsDayWise" target="_blank"><strong><li>/getStudentsDayWise</li></strong></a>
+                    <a href="https://digitalcafe-stats.herokuapp.com/getStudentsMealWise" target="_blank"><strong><li>/getStudentsMealWise</li></strong></a>
+                </ul>
             </div>
             <div class="alert alert-warning">
                 <h4>https://digitalcafe.herokuapp.com/user</h4>
@@ -65,22 +77,22 @@
                 <br>
                 <h5><strong>The following routes require the ACCESS_TOKEN in the header when making request</strong></h5>
                 <br>
-                <h4>/balance <button type="button" class="btn-danger btn-xs disabled">GET</button></h4>
+                <h4>/balance <a href="https://digitalcafe.herokuapp.com/user/ROLL/balance" target="_blank"><button type="button" class="btn-danger btn-xs disabled">GET</button></a></h4>
                 <p>This is the endpoint used to get user balance for given roll.</p>
                 <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>200 - </strong>Balance retrieved</li>
-                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
+                    <li><strong>403 - </strong>Forbidden (Invalid ACCESS_TOKEN)</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
                 <br>
                 <br>
-                <h4>/transaction <button type="button" class="btn-danger btn-xs disabled">GET</button></h4>
+                <h4>/transaction <a href="https://digitalcafe.herokuapp.com/user/ROLL/transaction" target="_blank"><button type="button" class="btn-danger btn-xs disabled">GET</button></a></h4>
                 <p>This is the endpoint used to get user transactions for given roll.</p>
                 <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>200 - </strong>List of user transactions</li>
-                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
+                    <li><strong>403 - </strong>Forbidden (Invalid ACCESS_TOKEN)</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
                 <br>
@@ -99,7 +111,7 @@
                     <li><strong>201 - </strong>Transaction added to user's account</li>
                     <li><strong>400 - </strong>Insufficient balance</li>
                     <li><strong>401 - </strong>User is from a different hostel than the one QR was scanned from</li>
-                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
+                    <li><strong>403 - </strong>Forbidden (Invalid ACCESS_TOKEN)</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
                 <br>
@@ -110,12 +122,11 @@
                 <p>The endpoint has the following <strong>response codes</strong>:</p>
                 <ul>
                     <li><strong>200 - </strong>Returns user data</li>
-                    <li><strong>403 - </strong>Invalid ACCESS_TOKEN</li>
+                    <li><strong>403 - </strong>Forbidden (Invalid ACCESS_TOKEN)</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
             </div>
         </div>
-        <script src="" async defer></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     </body>
 </html>
