@@ -26,9 +26,12 @@
                 <h4>https://digitalcafe.herokuapp.com/   <a href="#redirect"><button type="button" class="btn-danger btn-xs disabled">GET</button></a></h4>
                 <p>This is the index page which gives a detailed description of the APIs used by the mobile application for serving user data.</p>
                 <p><strong>NOTE:</strong> The POST routes can't be triggered using the browser :p</p>
-                <br>
+            </div>
+            <div class="alert alert-info">
                 <h3>API for the data analytics and visualization:</h3>
-                <h4>https://digitalcafe-stats.herokuapp.com/</h4>
+                <p>This API returns data which is being plotted in the stats section of the mobile application.</p>
+                <br>
+                <h4>https://digitalcafe-stats.herokuapp.com</h4>
                 <p>The endpoint has the following routes:</p>
                 <ul>
                     <a href="https://digitalcafe-stats.herokuapp.com/getStudentsDayWise" target="_blank"><strong><li>/getStudentsDayWise</li></strong></a>
@@ -36,6 +39,7 @@
                 </ul>
             </div>
             <div class="alert alert-warning">
+                <h3>API for interacting with the database:</h3>
                 <h4>https://digitalcafe.herokuapp.com/user</h4>
                 <br>
                 <br>
@@ -71,8 +75,6 @@
                     <li><strong>401 - </strong>Invalid credentials</li>
                     <li><strong>404 - </strong>User not registered</li>
                 </ul>
-            </div>
-            <div class="alert alert-warning">
                 <h4>https://digitalcafe.herokuapp.com/user/{roll}</h4>
                 <br>
                 <h5><strong>The following routes require the ACCESS_TOKEN in the header when making request</strong></h5>
